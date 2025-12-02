@@ -1,0 +1,43 @@
+# Quartus Prime privremeni i output fajlovi
+*.qdb
+*.rpt
+*.smsg
+*.bak
+*.done
+*.summary
+*.log
+*.sof
+*.pof
+*.jic
+*.hex
+*.mif
+*.sld
+*.cdf
+*.cof
+*.jdi
+*.jtag
+*.jbc
+
+# ModelSim simulacijski fajlovi
+/work/
+*.vcd
+*.wlf
+*.asdb
+*.vstf
+transcript
+vsim.wlf
+
+# Platform Designer fajlovi
+*.qsys
+*.qip
+*.sopcinfo
+
+# Backup i privremeni fajlovi
+*~
+*.tmp
+*.swp
+
+# OS specifični fajlovi
+.DS_Store
+Thumbs.db
+
