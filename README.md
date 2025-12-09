@@ -8,6 +8,7 @@ TCP pomoću 3-way handshake uspostavlja pouzdanu vezu između servera i klijenta
 Tok izgleda ovako:
 
 Korak 1 – Klijent → Server: SYN
+
 Klijent inicira konekciju slanjem TCP paketa sa segmentima :
 SYN = 1
 SEQ = x (nasumično generisan ISN – Initial Sequence Number)
