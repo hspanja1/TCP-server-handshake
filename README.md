@@ -1,8 +1,10 @@
 # TCP Server Handshake – Projekat
 
 Kratak, jasan opis TCP server handshake-a
-
-TCP pomoću 3-way handshake uspostavlja pouzdanu vezu između servera i klijenta.
+TCP je komunikacijski protokol koji standardizira kako se ostvaruje prenos podataka između klijenta i servera. 3-way handshake osigurava pouzdanu vezu između servera i klijenta.
+3-way handshake se zasniva na tome da klijent šalje IP paket u čijem header-u na poziciji SYN je aktiviran zastavica, šalje broj paketa (koji je nasumično generisan broj X), taj paket ne sadrži podatke.
+Server nakon što primi paket, šalje odgovor paketom u kojem su aktivni SYN i ACK, te sadrži inicijalizacijski broj paketa za server (Y) i kao potvrdu šalje broj paketa koji očekuje. Nakon što klijent
+primi server-ov paket. Klijent šalje potvrdu da je primio paket u vidu paketa koji ima zastavicu ACK i broj narednog paketa koji očekuje (ACKNUM=y+1).
 
     
 Tok izgleda ovako:
