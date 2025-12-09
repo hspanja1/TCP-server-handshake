@@ -7,7 +7,7 @@ TCP je komunikacijski protokol koji standardizira kako se ostvaruje prenos podat
 Server nakon što primi paket, šalje odgovor paketom u kojem su aktivni SYN i ACK, te sadrži inicijalizacijski broj paketa za server (Y) i kao potvrdu šalje broj paketa koji očekuje. Nakon što klijent
 primi server-ov paket, klijent šalje potvrdu da je primio paket u vidu paketa koji ima zastavicu ACK i broj narednog paketa koji očekuje (ACKNUM=y+1).
 
-
+!slika_1.webp
     
 Tok izgleda ovako:
 
