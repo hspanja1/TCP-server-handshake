@@ -8,8 +8,8 @@ Server nakon što primi paket, šalje odgovor paketom u kojem su aktivni SYN i A
 primi server-ov paket, klijent šalje potvrdu da je primio paket u vidu paketa koji ima zastavicu ACK i broj narednog paketa koji očekuje (ACKNUM=y+1).
 
 !slika_1.webp
-    
-Tok izgleda ovako:
+
+Scenarij 1: Tok uspješne konekcije izgleda ovako:
 
 Korak 1 – Klijent → Server: SYN
 
@@ -38,6 +38,16 @@ Klijent vraća zadnji paket:<br>
 Ovim odgovaraju serveru: "Primio sam tvoj SYN-ACK."
 
 Uspješna konekcija se smatra uspostavljenom nakon što server primi ovaj ACK.
+
+Scenarij 2: Tok neuspješne konekcije izgleda ovako:
+
+U 2. scenariju prva dva koraka su ista međutim 3. korak (paket) nije nikad dostavljen serveru. Server nakon TimeOut vremena odbacuje proces uspostave konekcije. Server se vraća u stanje Listen;  is_connected='0'.​ Alternativno, klijent šalje RST → Konekcija odbijena.​
+
+
+Scenarij 3: SYN flood zašitita
+
+U 3. scenariju klijent šalje više SYN zahtjeva uzastopno, sa željom da onemogući rad servera. U tom slučaju konekcija se uspostavlja po prvoj SYN poruci, a ostale poruke sa zastavicom SYN od istog klijenta se odbacuju.
+
 
 ## Struktura repozitorija
 - 'docs/' – dijagrami (FSM, WaveDrom, sekvence poruka)
