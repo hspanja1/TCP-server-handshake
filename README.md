@@ -31,6 +31,7 @@ ACK = 1
 SEQ = x + 1
 ACKNUM = y + 1
 Ovim odgovaraju serveru: "Primio sam tvoj SYN-ACK."
+
 Uspješna konekcija se smatra uspostavljenom nakon što server primi ovaj ACK.
 
 ## Struktura repozitorija
