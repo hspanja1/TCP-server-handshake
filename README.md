@@ -85,7 +85,8 @@ Na ovaj način i pošiljalac i primalac mogu usporiti ili ubrzati tok podataka, 
    <p align="center"> <img src="https://cdn.vhdlwhiz.com/wp-content/uploads/2022/08/wavedrom_slow_receiver.png.webp" width="600"/> </p>
    
 4. `valid=0`, `ready=0` → nema prijenosa.  
-
+-----
+### Struktura repozitorija
 
 - 'docs/' – dijagrami (FSM, WaveDrom, sekvence poruka)
 - 'src/' – VHDL kod (entitet, arhitektura)
