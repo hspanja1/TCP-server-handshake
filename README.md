@@ -6,6 +6,8 @@
 - 'tb/' – testbench fajlovi
 - 'sim/' – rezultati simulacije (screenshotovi)
 ---
+# TCP 
+
 **TCP (Transmission Control Protocol)** je transportni protokol orijentiran na konekciju. Njegova glavna uloga je da podaci koje aplikacije šalju preko mreže stignu **pouzdano, u pravom redoslijedu i bez grešaka**. Aplikacije ne moraju brinuti o tehničkim detaljima prijenosa – TCP se brine o svemu, od uspostavljanja veze do kontrole toka podataka.
 
 Prije nego što se podaci počnu slati, TCP uspostavlja vezu između pošiljatelja i primatelja kroz postupak **trosmjernog rukovanja (3 way handshake)**. Kada se veza uspostavi, TCP dijeli poruke na manje segmente, pakira ih u IP pakete i šalje kroz mrežu. Na odredištu TCP ponovno slaže segmente u ispravan redoslijed i predaje ih aplikaciji. Ako neki paket nestane, stigne oštećen ili izvan redoslijeda, TCP to otkriva i traži ponovni prijenos, čime osigurava da primljeni podaci budu identični onima koji su poslani.
@@ -31,9 +33,72 @@ TCP segment sadrži sljedeća polja:
 - **Urgent Pointer** - Ovo polje označava na kraj hitnih podataka **(16 bita)** 
 - **Options** - Mogu, a ne moraju biti uključene; ako postoje, veličine su x×8 bita **(0 ili 32 bita, ako je dostupno)**
 - **Padding** - dopuna nulama do **32 bita**.
+---
+
+## Opis projekta i popis signala
+
+Ovaj projekat razvija VHDL modul koji simulira ponašanje TCP servera na nivou hardvera. Modul je zamišljen da prepozna dolazne pakete, provjeri da li su namijenjeni serveru i da kroz standardni TCP three‑way handshake uspostavi vezu sa klijentom. Kada je konekcija ostvarena, modul jasno signalizira stanje povezivanja (is_connected) i izdvaja osnovne podatke o klijentu – njegovu MAC adresu, IP adresu i port. Za prijem i slanje poruka koristi se Avalon‑ST interfejs sa ready/valid rukovanjem.
 
 
+##  Generički parametri
+Parametri se zadaju prilikom instanciranja modula i predstavljaju identitet servera:
 
+- **SERVER_MAC** – fizička adresa mrežnog interfejsa servera.
+- **SERVER_IP** – IP adresa servera.
+- **SERVER_PORT** – TCP port na kojem server „sluša“ konekcije.
+
+
+## Popis signala
+
+### Ulazni signali
+- `clock` – glavni takt sistema.
+- `reset` – resetuje modul u početno stanje.
+- `in_data (8 bita)` – bajt podataka koji dolazi sa mreže.
+- `in_valid` – označava da je `in_data` trenutno validan.
+- `in_sop` – „start of packet“ – početak paketa.
+- `in_eop` – „end of packet“ – kraj paketa.
+- `out_ready` – dolazi od prijemnika; označava da je spreman da primi izlazne podatke.
+
+### Izlazni signali
+- `is_connected` – pokazuje da je TCP konekcija uspješno uspostavljena.
+- `client_mac` – MAC adresa klijenta.
+- `client_ip` – IP adresa klijenta.
+- `client_port` – TCP port klijenta.
+- `in_ready` – govori da je server spreman da primi ulazne podatke.
+- `out_data (8 bita)` – bajt podataka koji server šalje ka klijentu.
+- `out_valid` – označava da je `out_data` validan.
+- `out_sop` – početak paketa koji server šalje.
+- `out_eop` – kraj paketa koji server šalje.
+
+---
+
+
+Glavni identifikovani scenariji razmjene poruka uključuju uspostavljanje veze, prijenos podataka, retransmisiju i terminaciju veze.
 ### Scenariji komunikacije
- → nema prijenosa.  
 
+## 1. Klijent šalje SYN
+
+- Klijent inicira vezu tako što šalje paket sa zastavicom SYN=1.
+
+- U tom paketu postavlja početni broj sekvence (seq=x).
+
+- Nakon slanja, klijent prelazi u stanje SYN‑SENT.
+
+## 2. Server odgovara sa SYN‑ACK
+
+- Ako server prihvati vezu, šalje paket sa zastavicama SYN=1 i ACK=1.
+
+- Server postavlja svoj broj sekvence (seq=y) i potvrđuje klijentov broj (ack=x+1).
+
+- Server prelazi u stanje SYN‑RCVD.
+
+- Ako odbije vezu, šalje RST paket.
+
+## 3. Klijent šalje završni ACK
+
+- Klijent potvrđuje prijem SYN‑ACK paketa slanjem ACK=1.
+
+- U tom paketu stoji seq=x+1 i ack=y+1.
+
+- Nakon toga, oba kraja prelaze u ESTABLISHED stanje – veza je uspostavljena.
+<p align="center"> <img src="https://user-content.gitlab-static.net/d1f2cbdbc064b2cfa0acc4fe483cd8fd4fac931c/687474703a2f2f746370697067756964652e636f6d2f667265652f6469616772616d732f7463706f70656e337761792e706e67" width="600"/> </p>
