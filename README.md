@@ -117,6 +117,9 @@ Na narednoj slici se nalazi dijagram stanja za TCP.
 
 <p align="center"> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Tcp_state_diagram_fixed_new.svg/1280px-Tcp_state_diagram_fixed_new.svg.png" width="600"/> </p>
 
+# TCP stanja
+
+Tijekom procesa trostrukog rukovanja postoji 6 vrsta TCP stanja koja se nazivaju: CLOSED, LISTEN, SYN-SENT, SYN-ACK SENT, SYN RCVD i ESTABLISHED. Donja tablica navodi detalje svakog stanja:
 
 
 
