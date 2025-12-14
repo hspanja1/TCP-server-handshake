@@ -16,8 +16,12 @@ Ovaj protokol koristi tehniku potvrde prijema – primatelj mora potvrditi svaki
 
 ----
 ## Struktura TCP segmenta 
-Struktura TCP segmenta izgleda ovako:
+Struktura TCP segmenta izgleda ovako (Slika 1) [2].
+
 <p align="center"> <img src="https://intronetworks.cs.luc.edu/current/uhtml/_images/tcp_header.svg" width="600"/> </p>
+<p align="center"><i>Slika 1. Struktura TCP segmenta</i></p>
+
+
 
 TCP segment sadrži sljedeća polja:
 
@@ -105,25 +109,26 @@ Parametri se zadaju prilikom instanciranja modula i predstavljaju identitet serv
 
 - Nakon toga, oba kraja prelaze u ESTABLISHED stanje – veza je uspostavljena.
 
-- Na narednoj slici prikazan je cjelokupni proces 3 way handshake- inga.
+- Na narednoj slici prikazan je cjelokupni proces 3 way handshake- inga. (Slika 2) [4]
 
 <p align="center"> <img src="https://user-content.gitlab-static.net/d1f2cbdbc064b2cfa0acc4fe483cd8fd4fac931c/687474703a2f2f746370697067756964652e636f6d2f667265652f6469616772616d732f7463706f70656e337761792e706e67" width="600"/> </p>
-
+<p align="center"><i>Slika 2. 3 way handshaking </i></p>
 ---
 
 # TCP dijagram stanja
 
-Na narednoj slici se nalazi dijagram stanja za TCP.
+Na narednoj slici se nalazi dijagram stanja za TCP. (Slika 3) [1]
 
 <p align="center"> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Tcp_state_diagram_fixed_new.svg/1280px-Tcp_state_diagram_fixed_new.svg.png" width="600"/> </p>
+<p align="center"><i>Slika 3. Dijagram stanja za TCP</i></p>
 
 # TCP stanja
 
-Tijekom procesa trostrukog rukovanja postoji 6 vrsta TCP stanja koja se nazivaju: CLOSED, LISTEN, SYN-SENT, SYN-ACK SENT, SYN RCVD i ESTABLISHED. Donja tabela navodi detalje svakog stanja:
+Tijekom procesa trostrukog rukovanja postoji 6 vrsta TCP stanja koja se nazivaju: CLOSED, LISTEN, SYN-SENT, SYN-ACK SENT, SYN RCVD i ESTABLISHED. Donja tabela navodi detalje svakog stanja: (Slika 4) [3]
 <p align="center">
   <img src="docs/TCP%20stanja.jpg" width="600"/>
 </p>
-
+<p align="center"><i>Slika 4. Tabela stanja za TCP </i></p>
 
 ## TCP stanja – serverska strana
 
@@ -145,11 +150,6 @@ Kako je naš projekat fokusiran na **TCP server handshake**, u nastavku su izdvo
 ---
 ## Literatura
 
-# TCP Server Handshake – Dokumentacija
-
-Ovaj projekt koristi sljedeće izvore za objašnjenje TCP protokola i 3‑way handshake procesa.
-
-## Reference
 
 [1] "Transmission Control Protocol," u *Wikipedia, the Free Encyclopedia*. [Na internetu].  
 Dostupno: https://en.wikipedia.org/wiki/Transmission_Control_Protocol [pristupljeno: 14-pro-2025].
