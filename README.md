@@ -142,4 +142,30 @@ Kako je naš projekat fokusiran na **TCP server handshake**, u nastavku su izdvo
 
 </div>
 
+---
+## Literatura
+
+# TCP Server Handshake – Dokumentacija
+
+Ovaj projekt koristi sljedeće izvore za objašnjenje TCP protokola i 3‑way handshake procesa.
+
+## Reference
+
+[1] "Transmission Control Protocol," u *Wikipedia, the Free Encyclopedia*. [Na internetu].  
+Dostupno: https://en.wikipedia.org/wiki/Transmission_Control_Protocol [pristupljeno: 14-pro-2025].
+
+[2] "TCP/IP – Transportni sloj," u *Mreže – Layer-X*. [Na internetu].  
+Dostupno: http://mreze.layer-x.com/s040100-0.html#google_vignette [pristupljeno: 14-pro-2025].
+
+[3] "TCP 3-Way Handshake Process," u *NetworkWalks*. [Na internetu].  
+Dostupno: https://networkwalks.com/tcp-3-way-handshake-process/ [pristupljeno: 14-pro-2025].
+
+[4] "TCP 3-Way Handshaking," u *Wireshark Wiki*. [Na internetu].  
+Dostupno: https://wiki.wireshark.org/TCP_3_way_handshaking [pristupljeno: 14-pro-2025].
+
+[5] "TCP transportni protokol," u *LikeMeAsap Blog*. [Na internetu].  
+Dostupno: https://likemeasap.com/hr/blog/TCP-transportni-protokol/ [pristupljeno: 14-pro-2025].
+
+[6] "TCP Three-Way Handshake," u *Study CCNA*. [Na internetu].  
+Dostupno: https://study-ccna.com/tcp-three-way-handshake/ [pristupljeno: 14-pro-2025].
 
