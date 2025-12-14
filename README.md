@@ -32,7 +32,7 @@ TCP segment sadrži sljedeća polja:
 - **Checksum** - Izračunata kontrolna suma zaglavlja i podataka. Koristi se za provjeru pogrešaka TCP zaglavlja, korisnog tereta i IP pseudo-zaglavlja. **(16 bita)** 
 - **Urgent Pointer** - Ovo polje označava na kraj hitnih podataka **(16 bita)** 
 - **Options** - Mogu, a ne moraju biti uključene; ako postoje, veličine su x×8 bita **(0 ili 32 bita, ako je dostupno)**
-- **Padding** - dopuna nulama do **32 bita**.
+- **Padding** - Dopuna nulama do **32 bita**.
 ---
 
 ## Opis projekta i popis signala
@@ -73,8 +73,9 @@ Parametri se zadaju prilikom instanciranja modula i predstavljaju identitet serv
 ---
 
 
-Glavni identifikovani scenariji razmjene poruka uključuju uspostavljanje veze, prijenos podataka, retransmisiju i terminaciju veze.
-### Scenariji komunikacije
+## Scenariji komunikacije
+
+## Upostavljanje veze:
 
 ## 1. Klijent šalje SYN
 
@@ -83,6 +84,7 @@ Glavni identifikovani scenariji razmjene poruka uključuju uspostavljanje veze, 
 - U tom paketu postavlja početni broj sekvence (seq=x).
 
 - Nakon slanja, klijent prelazi u stanje SYN‑SENT.
+
 
 ## 2. Server odgovara sa SYN‑ACK
 
@@ -94,6 +96,7 @@ Glavni identifikovani scenariji razmjene poruka uključuju uspostavljanje veze, 
 
 - Ako odbije vezu, šalje RST paket.
 
+
 ## 3. Klijent šalje završni ACK
 
 - Klijent potvrđuje prijem SYN‑ACK paketa slanjem ACK=1.
@@ -101,4 +104,19 @@ Glavni identifikovani scenariji razmjene poruka uključuju uspostavljanje veze, 
 - U tom paketu stoji seq=x+1 i ack=y+1.
 
 - Nakon toga, oba kraja prelaze u ESTABLISHED stanje – veza je uspostavljena.
+
+- Na narednoj slici prikazan je cjelokupni proces 3 way handshake- inga.
+
 <p align="center"> <img src="https://user-content.gitlab-static.net/d1f2cbdbc064b2cfa0acc4fe483cd8fd4fac931c/687474703a2f2f746370697067756964652e636f6d2f667265652f6469616772616d732f7463706f70656e337761792e706e67" width="600"/> </p>
+
+---
+
+# TCP dijagram stanja
+
+Na narednoj slici se nalazi dijagram stanja za TCP.
+
+<p align="center"> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Tcp_state_diagram_fixed_new.svg/1280px-Tcp_state_diagram_fixed_new.svg.png" width="600"/> </p>
+
+
+
+
