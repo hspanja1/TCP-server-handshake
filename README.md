@@ -125,4 +125,21 @@ Tijekom procesa trostrukog rukovanja postoji 6 vrsta TCP stanja koja se nazivaju
 </p>
 
 
+## TCP stanja – serverska strana
+
+U prethodnoj tabeli prikazana su **sva TCP stanja** koja se pojavljuju tokom uspostavljanja i prekida veze, uključujući i klijentsku stranu.
+
+Kako je naš projekat fokusiran na **TCP server handshake**, u nastavku su izdvojena samo ona stanja koja se tiču **serverske strane** i koja su relevantna za implementaciju u ovom modulu.
+
+<div align="center">
+  
+| TCP stanje       | Uloga servera                                                                 |
+|------------------|-------------------------------------------------------------------------------|
+| CLOSED           | Server nema aktivnu konekciju (resetovan ili konekcija završena).             |
+| LISTEN           | Server pasivno čeka SYN od klijenta na definisanom portu.                     |
+| SYN_RCVD         | Server je primio SYN i poslao SYN‑ACK; sada čeka završni ACK od klijenta.     |
+| ESTABLISHED      | Veza je uspostavljena; server i klijent mogu razmjenjivati podatke.           |
+
+</div>
+
 
