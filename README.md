@@ -44,15 +44,12 @@ TCP segment sadrži sljedeća polja:
 Ovaj projekat razvija VHDL modul koji simulira ponašanje TCP servera na nivou hardvera. Modul je zamišljen da prepozna dolazne pakete, provjeri da li su namijenjeni serveru i da kroz standardni TCP three‑way handshake uspostavi vezu sa klijentom. Kada je konekcija ostvarena, modul jasno signalizira stanje povezivanja (is_connected) i izdvaja osnovne podatke o klijentu – njegovu MAC adresu, IP adresu i port. Za prijem i slanje poruka koristi se Avalon‑ST interfejs sa ready/valid rukovanjem.
 
 
-##  Generički parametri
+###  Generički parametri
 Parametri se zadaju prilikom instanciranja modula i predstavljaju identitet servera:
 
 - **SERVER_MAC** – fizička adresa mrežnog interfejsa servera.
 - **SERVER_IP** – IP adresa servera.
 - **SERVER_PORT** – TCP port na kojem server „sluša“ konekcije.
-
-
-## Popis signala
 
 ### Ulazni signali
 - `clock` – glavni takt sistema.
@@ -79,20 +76,24 @@ Parametri se zadaju prilikom instanciranja modula i predstavljaju identitet serv
 
 ## Scenariji komunikacije
 
-## Upostavljanje veze:
+## Uspješan Handshake scenarij:
 
-## 1. Klijent šalje SYN
+### 1. Klijent šalje SYN
 
 - Klijent inicira vezu tako što šalje paket sa zastavicom SYN=1 na Avalon-ST ulaz servera (in_sop='1', in_valid='1'). U tom paketu postavlja početni broj sekvence (seq=x). **Server je u stanju LISTEN i čeka SYN.** Nakon slanja, klijent prelazi u stanje SYN‑SENT. 
 
-## 2. Server odgovara sa SYN‑ACK
+### 2. Server odgovara sa SYN‑ACK
 
 - Server prepoznaje SYN, postavlja klijentske parametre (client_mac/ip/port). Ako server prihvati vezu, šalje paket sa zastavicama SYN=1 i ACK=1 (out_sop='1', out_valid='1'). Server postavlja svoj broj sekvence (seq=y) i potvrđuje klijentov broj (ack=x+1). **Server prelazi u stanje SYN‑RCVD.**
 
 
-## 3. Klijent šalje završni ACK
+### 3. Klijent šalje završni ACK
 
-- Klijent potvrđuje prijem SYN‑ACK paketa slanjem ACK=1. U tom paketu stoji seq=x+1 i ack=y+1. Nakon primljenog ACK-a, server postavlja is_connected='1' - oba kraja prelaze u ESTABLISHED stanje (veza je uspostavljena) i izlaze klijentovi podatci (client_mac, client_ip, client_port). Razmjena se prikazuje sekvencijskim dijagramom.
+- Klijent potvrđuje prijem SYN‑ACK paketa slanjem ACK=1. U tom paketu stoji seq=x+1 i ack=y+1. Nakon primljenog ACK-a, server postavlja is_connected='1' - oba kraja prelaze u **ESTABLISHED** stanje (veza je uspostavljena) i izlaze klijentovi podatci (client_mac, client_ip, client_port).
+
+Razmjena se prikazuje sekvencijskim dijagramom.
+
+
 
 - Na narednoj slici prikazan je cjelokupni proces 3 way handshake- a. (Slika 2) [4]
 
