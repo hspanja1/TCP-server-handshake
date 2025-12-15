@@ -109,7 +109,7 @@ Parametri se zadaju prilikom instanciranja modula i predstavljaju identitet serv
 
 - Nakon toga, oba kraja prelaze u ESTABLISHED stanje – veza je uspostavljena.
 
-- Na narednoj slici prikazan je cjelokupni proces 3 way handshake- inga. (Slika 2) [4]
+- Na narednoj slici prikazan je cjelokupni proces 3 way handshake- a. (Slika 2) [4]
 
 <p align="center"> <img src="https://user-content.gitlab-static.net/d1f2cbdbc064b2cfa0acc4fe483cd8fd4fac931c/687474703a2f2f746370697067756964652e636f6d2f667265652f6469616772616d732f7463706f70656e337761792e706e67" width="600"/> </p>
 <p align="center"><i>Slika 2. 3 way handshaking </i></p>
