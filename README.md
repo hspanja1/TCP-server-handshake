@@ -131,7 +131,7 @@ Alternativno, klijent šalje RST → Konekcija odbijena.
 
 # TCP stanja
 
-Tijekom procesa trostrukog rukovanja postoji 6 vrsta TCP stanja koja se nazivaju: CLOSED, LISTEN, SYN-SENT, SYN-ACK SENT, SYN RCVD i ESTABLISHED. Donja tabela navodi detalje svakog stanja: (Slika 4) [3]
+Tijekom procesa trostrukog rukovanja postoji 6 vrsta TCP stanja koja se nazivaju: CLOSED, LISTEN, SYN-SENT, SYN-ACK SENT, SYN RCVD i ESTABLISHED. Donja tabela navodi detalje svakog stanja: (Slika 6) [3]
 <p align="center">
   <img src="docs/TCP%20stanja.jpg" width="600"/>
 </p>
