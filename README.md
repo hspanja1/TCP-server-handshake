@@ -41,7 +41,7 @@ TCP segment sadrži sljedeća polja:
 
 ## Opis projekta i popis signala
 
-Ovaj projekat razvija VHDL modul koji simulira ponašanje TCP servera na nivou hardvera. Modul je zamišljen da prepozna dolazne pakete, provjeri da li su namijenjeni serveru i da kroz standardni TCP three‑way handshake uspostavi vezu sa klijentom. Kada je konekcija ostvarena, modul jasno signalizira stanje povezivanja (is_connected) i izdvaja osnovne podatke o klijentu – njegovu MAC adresu, IP adresu i port. Za prijem i slanje poruka koristi se Avalon‑ST interfejs sa ready/valid rukovanjem.
+TCP handshake protokol omogućava pouzdano uspostavljanje konekcije između klijenta i servera putem trostrukog rukovanja (SYN, SYN-ACK, ACK), gdje server prima SYN paket, odgovara SYN-ACK, a zatim potvrđuje klijentov ACK, aktivirajući signale is_connected, client_mac, client_ip i client_port. U kontekstu VHDL modula tcp_server, komunikacija se odvija preko Avalon-ST interfejsa (in_data/valid/sop/eop/ready i out_data/valid/sop/eop/ready), gdje server obrađuje ulazne pakete i generiše izlazne bez podataka u fazi handshake-a. Identificirani scenariji uključuju uspješan handshake i greške poput timeout ili RST i duplikovani SYN (SYN FLOOD ZAŠTITA).
 
 
 ###  Generički parametri
@@ -106,7 +106,15 @@ Alternativno, klijent šalje RST → Konekcija odbijena.
 <p align="center">
   <img src="docs/Scenarij2.jpg" width="600"/>
 </p>
-<p align="center"><i>Slika 3. Neuspješna konekcija </i></p>
+<p align="center"><i>Slika 3. Neuspješna konekcija (timeout ili RST) </i></p>
+
+## 3. Duplikovani SYN (SYN flood zaštita)
+- Višestruki SYN od istog klijenta → Server obrađuje samo prvi, ignorira duplikate.
+
+<p align="center">
+  <img src="docs/Scenarij3.jpg" width="600"/>
+</p>
+<p align="center"><i>Slika 4. Neuspješna konekcija: duplikovani SYN </i></p>
 
 ---
 - Na narednoj slici prikazan je cjelokupni proces 3 way handshake- a. (Slika 2) [4]
