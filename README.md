@@ -8,18 +8,29 @@
 ---
 # TCP 
 
-**TCP (Transmission Control Protocol)** je transportni protokol orijentiran na konekciju. Njegova glavna uloga je da podaci koje aplikacije šalju preko mreže stignu **pouzdano, u pravom redoslijedu i bez grešaka**. Aplikacije ne moraju brinuti o tehničkim detaljima prijenosa – TCP se brine o svemu, od uspostavljanja veze do kontrole toka podataka.
+**TCP (Transmission Control Protocol)** je temeljni komunikacijski protokol koji omogućava pouzdanu razmjenu podataka između dva uređaja u mreži. Za razliku od jednostavnijih protokola poput UDP-a, TCP garantuje da će svi podaci stići tačno, redoslijedom kojim su poslani, bez gubitaka ili duplikata.
 
-Prije nego što se podaci počnu slati, TCP uspostavlja vezu između pošiljatelja i primatelja kroz postupak **trosmjernog rukovanja (3 way handshake)**. Kada se veza uspostavi, TCP dijeli poruke na manje segmente, pakira ih u IP pakete i šalje kroz mrežu. Na odredištu TCP ponovno slaže segmente u ispravan redoslijed i predaje ih aplikaciji. Ako neki paket nestane, stigne oštećen ili izvan redoslijeda, TCP to otkriva i traži ponovni prijenos, čime osigurava da primljeni podaci budu identični onima koji su poslani.
+TCP koristi **mehanizam kontrole toka, potvrda prijema (ACK) i ponovnog slanja** kako bi osigurao pouzdanost. Ključni dio tog procesa je **trostruko rukovanje (three-way handshake)** — inicijalna razmjena poruka kojom se uspostavlja konekcija između klijenta i servera.
 
-Ovaj protokol koristi tehniku potvrde prijema – primatelj mora potvrditi svaki paket, a pošiljatelj vodi evidenciju i ponovno šalje podatke ako potvrda ne stigne na vrijeme. Takav pristup daje visoku pouzdanost, ali može uzrokovati kašnjenja, pa TCP nije idealan za aplikacije u stvarnom vremenu poput internetskih poziva ili online igara. Za takve slučajeve koristi se UDP, koji daje prednost brzini nad pouzdanošću.
+Prilikom uspostavljanja veze, TCP koristi tri koraka:
+
+**1. SYN** – Klijent šalje zahtjev za konekciju.
+
+**2. SYN-ACK** – Server potvrđuje prijem i šalje vlastiti zahtjev.
+
+**3. ACK** – Klijent potvrđuje i konekcija je uspostavljena.
+
+Ovaj proces omogućava obje strane da se usaglase o početnim parametrima komunikacije, uključujući početne sekvence, portove i IP adrese. Na slici ispod prikazan je tok stanja i razmjena poruka tokom TCP three-way handshakea, kako bi se vizualno pojasnio proces uspostavljanja konekcije.
+
+<p align="center"> <img src="https://user-content.gitlab-static.net/d1f2cbdbc064b2cfa0acc4fe483cd8fd4fac931c/687474703a2f2f746370697067756964652e636f6d2f667265652f6469616772616d732f7463706f70656e337761792e706e67" width="600"/> </p>
+<p align="center"><i>Slika 1. 3 way handshaking </i></p>
 
 ----
 ## Struktura TCP segmenta 
-Struktura TCP segmenta izgleda ovako (Slika 1) [2].
+Struktura TCP segmenta izgleda ovako (Slika 2) [2].
 
 <p align="center"> <img src="https://intronetworks.cs.luc.edu/current/uhtml/_images/tcp_header.svg" width="600"/> </p>
-<p align="center"><i>Slika 1. Struktura TCP segmenta</i></p>
+<p align="center"><i>Slika 2. Struktura TCP segmenta</i></p>
 
 
 
@@ -96,7 +107,7 @@ Razmjena se prikazuje sekvencijskim dijagramom.
 <p align="center">
   <img src="docs/Scenarij1.jpg" width="600"/>
 </p>
-<p align="center"><i>Slika 2. Uspješan Handshake scenarij </i></p>
+<p align="center"><i>Slika 3. Uspješan Handshake scenarij </i></p>
 
 
 ## 2. Neuspješna konekcija: (timeout ili RST)
@@ -106,7 +117,7 @@ Alternativno, klijent šalje RST → Konekcija odbijena.
 <p align="center">
   <img src="docs/Scenarij2.jpg" width="600"/>
 </p>
-<p align="center"><i>Slika 3. Neuspješna konekcija (timeout ili RST) </i></p>
+<p align="center"><i>Slika 4. Neuspješna konekcija (timeout ili RST) </i></p>
 
 ## 3. Duplikovani SYN (SYN flood zaštita)
 - Višestruki SYN od istog klijenta → Server obrađuje samo prvi, ignorira duplikate.
@@ -114,21 +125,9 @@ Alternativno, klijent šalje RST → Konekcija odbijena.
 <p align="center">
   <img src="docs/Scenarij3.jpg" width="600"/>
 </p>
-<p align="center"><i>Slika 4. Neuspješna konekcija: duplikovani SYN </i></p>
+<p align="center"><i>Slika 5. Neuspješna konekcija: duplikovani SYN </i></p>
 
 ---
-- Na narednoj slici prikazan je cjelokupni proces 3 way handshake- a. (Slika 2) [4]
-
-<p align="center"> <img src="https://user-content.gitlab-static.net/d1f2cbdbc064b2cfa0acc4fe483cd8fd4fac931c/687474703a2f2f746370697067756964652e636f6d2f667265652f6469616772616d732f7463706f70656e337761792e706e67" width="600"/> </p>
-<p align="center"><i>Slika 2. 3 way handshaking </i></p>
----
-
-# TCP dijagram stanja
-
-Na narednoj slici se nalazi dijagram stanja za TCP. (Slika 3) [1]
-
-<p align="center"> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Tcp_state_diagram_fixed_new.svg/1280px-Tcp_state_diagram_fixed_new.svg.png" width="600"/> </p>
-<p align="center"><i>Slika 3. Dijagram stanja za TCP</i></p>
 
 # TCP stanja
 
@@ -136,7 +135,7 @@ Tijekom procesa trostrukog rukovanja postoji 6 vrsta TCP stanja koja se nazivaju
 <p align="center">
   <img src="docs/TCP%20stanja.jpg" width="600"/>
 </p>
-<p align="center"><i>Slika 4. Tabela stanja za TCP </i></p>
+<p align="center"><i>Slika 6. Tabela stanja za TCP </i></p>
 
 ## TCP stanja – serverska strana
 
