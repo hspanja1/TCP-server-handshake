@@ -104,7 +104,7 @@ Razmjena se prikazuje sekvencijskim dijagramom.
 Alternativno, klijent šalje RST → Konekcija odbijena.
 
 <p align="center">
-  <img src="docs/Scenarij2.png" width="600"/>
+  <img src="docs/Scenarij2.jpg" width="600"/>
 </p>
 <p align="center"><i>Slika 3. Neuspješna konekcija </i></p>
 
