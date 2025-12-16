@@ -76,18 +76,18 @@ Parametri se zadaju prilikom instanciranja modula i predstavljaju identitet serv
 
 ## Scenariji komunikacije
 
-## Uspješan Handshake scenarij:
+## 1. Uspješan Handshake scenarij:
 
-### 1. Klijent šalje SYN
+#### 1. Klijent šalje SYN
 
 - Klijent inicira vezu tako što šalje paket sa zastavicom SYN=1 na Avalon-ST ulaz servera (in_sop='1', in_valid='1'). U tom paketu postavlja početni broj sekvence (seq=x). **Server je u stanju LISTEN i čeka SYN.** Nakon slanja, klijent prelazi u stanje SYN‑SENT. 
 
-### 2. Server odgovara sa SYN‑ACK
+#### 2. Server odgovara sa SYN‑ACK
 
 - Server prepoznaje SYN, postavlja klijentske parametre (client_mac/ip/port). Ako server prihvati vezu, šalje paket sa zastavicama SYN=1 i ACK=1 (out_sop='1', out_valid='1'). Server postavlja svoj broj sekvence (seq=y) i potvrđuje klijentov broj (ack=x+1). **Server prelazi u stanje SYN‑RCVD.**
 
 
-### 3. Klijent šalje završni ACK
+#### 3. Klijent šalje završni ACK
 
 - Klijent potvrđuje prijem SYN‑ACK paketa slanjem ACK=1. U tom paketu stoji seq=x+1 i ack=y+1. Nakon primljenog ACK-a, server postavlja is_connected='1' - oba kraja prelaze u **ESTABLISHED** stanje (veza je uspostavljena) i izlaze klijentovi podatci (client_mac, client_ip, client_port).
 
@@ -99,7 +99,7 @@ Razmjena se prikazuje sekvencijskim dijagramom.
 <p align="center"><i>Slika 2. Uspješan Handshake scenarij </i></p>
 
 
-## Neuspješna konekcija: (timeout ili RST)
+## 2. Neuspješna konekcija: (timeout ili RST)
 - Klijent šalje SYN → Server šalje SYN-ACK → Nema ACK-a u timeout periodu → Server ostaje u **LISTEN** stanju, is_connected='0'.
 Alternativno, klijent šalje RST → Konekcija odbijena.
 
@@ -107,6 +107,7 @@ Alternativno, klijent šalje RST → Konekcija odbijena.
   <img src="docs/Scenarij2.png" width="600"/>
 </p>
 <p align="center"><i>Slika 3. Neuspješna konekcija </i></p>
+
 ---
 - Na narednoj slici prikazan je cjelokupni proces 3 way handshake- a. (Slika 2) [4]
 
