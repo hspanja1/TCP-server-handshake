@@ -107,7 +107,7 @@ Razmjena se prikazuje sekvencijskim dijagramom.
 <p align="center">
   <img src="docs/Scenarij1.jpg" width="600"/>
 </p>
-<p align="center"><i>Slika 3. Uspješan Handshake scenarij [4] </i></p>
+<p align="center"><i>Slika 3. Uspješan Handshake scenarij </i></p>
 
 ## 2. Neuspješna komunikacija: Nepostojeći Port
 
