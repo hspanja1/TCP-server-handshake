@@ -91,16 +91,16 @@ Parametri se zadaju prilikom instanciranja modula i predstavljaju identitet serv
 
 #### 1. Klijent šalje SYN
 
-- Klijent inicira vezu tako što šalje paket sa zastavicom SYN=1 na Avalon-ST ulaz servera (in_sop='1', in_valid='1'). U tom paketu postavlja početni broj sekvence (seq=x). **Server je u stanju LISTEN i čeka SYN.** Nakon slanja, klijent prelazi u stanje SYN‑SENT. [4] [5]
+- Klijent inicira vezu tako što šalje paket sa zastavicom SYN=1 na Avalon-ST ulaz servera (in_sop='1', in_valid='1'). U tom paketu postavlja početni broj sekvence (seq=x). **Server je u stanju LISTEN i čeka SYN.** Nakon slanja, klijent prelazi u stanje SYN‑SENT. [4] 
 
 #### 2. Server odgovara sa SYN‑ACK
 
-- Server prepoznaje SYN, postavlja klijentske parametre (client_mac/ip/port). Ako server prihvati vezu, šalje paket sa zastavicama SYN=1 i ACK=1 (out_sop='1', out_valid='1'). Server postavlja svoj broj sekvence (seq=y) i potvrđuje klijentov broj (ack=x+1). **Server prelazi u stanje SYN‑RCVD.** [4] [5]
+- Server prepoznaje SYN, postavlja klijentske parametre (client_mac/ip/port). Ako server prihvati vezu, šalje paket sa zastavicama SYN=1 i ACK=1 (out_sop='1', out_valid='1'). Server postavlja svoj broj sekvence (seq=y) i potvrđuje klijentov broj (ack=x+1). **Server prelazi u stanje SYN‑RCVD.** [4] 
 
 
 #### 3. Klijent šalje završni ACK
 
-- Klijent potvrđuje prijem SYN‑ACK paketa slanjem ACK=1. U tom paketu stoji seq=x+1 i ack=y+1. Nakon primljenog ACK-a, server postavlja is_connected='1' - oba kraja prelaze u **ESTABLISHED** stanje (veza je uspostavljena) i izlaze klijentovi podatci (client_mac, client_ip, client_port). [4] [5]
+- Klijent potvrđuje prijem SYN‑ACK paketa slanjem ACK=1. U tom paketu stoji seq=x+1 i ack=y+1. Nakon primljenog ACK-a, server postavlja is_connected='1' - oba kraja prelaze u **ESTABLISHED** stanje (veza je uspostavljena) i izlaze klijentovi podatci (client_mac, client_ip, client_port). [4] 
 
 Razmjena se prikazuje sekvencijskim dijagramom.
 
@@ -172,10 +172,7 @@ Dostupno: https://networkwalks.com/tcp-3-way-handshake-process/ [pristupljeno: 1
 [4] "TCP 3-Way Handshaking," u *Wireshark Wiki*. [Na internetu].  
 Dostupno: https://wiki.wireshark.org/TCP_3_way_handshaking [pristupljeno: 14-pro-2025].
 
-[5] "TCP Three-Way Handshake," u *Study CCNA*. [Na internetu].  
-Dostupno: https://study-ccna.com/tcp-three-way-handshake/ [pristupljeno: 14-pro-2025].
-
-[6] "Avalon® Interface Specifications - Intel" [Na internetu].  
+[5] "Avalon® Interface Specifications - Intel" [Na internetu].  
 Dostupno: (https://cdrdv2-public.intel.com/667068/mnl_avalon_spec-683091-667068.pdf) [pristupljeno: 14-pro-2025].
 
 
