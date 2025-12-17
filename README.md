@@ -109,15 +109,24 @@ Razmjena se prikazuje sekvencijskim dijagramom.
 </p>
 <p align="center"><i>Slika 3. Uspješan Handshake scenarij </i></p>
 
+## 2. Neuspješna komunikacija: Nepostojeći Port
+
+- Klijent šalje **SYN** na port koji server ne sluša **(npr. SERVER_PORT mismatch)**, server odgovara **RST-ACK** (seq=0, ack=seq_klijent+1) i odbija konekciju. Modul ostaje u **LISTEN** stanju bez promjene stanja. Ovo sprječava neovlašteni pristup.​
+
+<p align="center">
+  <img src="docs/Scenarij2.jpg" width="600"/>
+</p>
+<p align="center"><i>Slika 4. Neuspješna komunikacija: Nepostojeći port </i></p>
 
 
-## 2. Duplikovani SYN (SYN flood zaštita)
-- Višestruki SYN od istog klijenta → Server obrađuje samo prvi, ignorira duplikate.
+
+## 3. Duplikovani SYN (SYN flood zaštita)
+- Klijent prvo šalje **SYN** s početnim sekvencijskim brojem 300, na što server odgovara **SYN-ACK** paketom sa svojim brojem 5000 i potvrdom klijentovog broja (ack=301). Klijent zatim šalje završni **ACK** (ack=5001), čime se veza formalno uspostavlja. Međutim, nakon toga stiže **novi SYN** s istim brojem kao prvi — duplikat koji može nastati zbog retransmisije, greške ili zlonamjerne radnje. Budući da server već ima aktivnu vezu s tim parametrima, prepoznaje duplikat i šalje **RST (reset)** paket s brojem 5001 kako bi odbacio taj zahtjev. TCP dizajn omogućava da se takvi duplikati ignoriraju bez prekida postojeće sesije, čime se osigurava stabilnost i sigurnost komunikacije.
 
 <p align="center">
   <img src="docs/Scenarij3.jpg" width="600"/>
 </p>
-<p align="center"><i>Slika 4. Neuspješna konekcija: duplikovani SYN </i></p>
+<p align="center"><i>Slika 5. Neuspješna konekcija: duplikovani SYN </i></p>
 
 ---
 
@@ -127,7 +136,7 @@ Tijekom procesa trostrukog rukovanja postoji 6 vrsta TCP stanja koja se nazivaju
 <p align="center">
   <img src="docs/TCP%20stanja.jpg" width="600"/>
 </p>
-<p align="center"><i>Slika 5. Tabela stanja za TCP </i></p>
+<p align="center"><i>Slika 6. Tabela stanja za TCP </i></p>
 
 ## TCP stanja – serverska strana
 
