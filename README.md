@@ -113,10 +113,6 @@ Razmjena se prikazuje sekvencijskim dijagramom.
 
 - Klijent šalje **SYN** na port koji server ne sluša **(npr. SERVER_PORT mismatch)**, server odgovara **RST-ACK** (seq=0, ack=seq_klijent+1) i odbija konekciju. Modul ostaje u **LISTEN** stanju bez promjene stanja. Ovo sprječava neovlašteni pristup.​
 
-<p align="center">
-  <img src="docs/Scenarij2.jpg" width="600"/>
-</p>
-<p align="center"><i>Slika 4. Neuspješna komunikacija: Nepostojeći port </i></p>
 
 
 
