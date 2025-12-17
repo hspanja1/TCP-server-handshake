@@ -110,22 +110,14 @@ Razmjena se prikazuje sekvencijskim dijagramom.
 <p align="center"><i>Slika 3. Uspješan Handshake scenarij </i></p>
 
 
-## 2. Neuspješna konekcija: (timeout ili RST)
-- Klijent šalje SYN → Server šalje SYN-ACK → Nema ACK-a u timeout periodu → Server ostaje u **LISTEN** stanju, is_connected='0'.
-Alternativno, klijent šalje RST → Konekcija odbijena.
 
-<p align="center">
-  <img src="docs/Scenarij2.jpg" width="600"/>
-</p>
-<p align="center"><i>Slika 4. Neuspješna konekcija (timeout ili RST) </i></p>
-
-## 3. Duplikovani SYN (SYN flood zaštita)
+## 2. Duplikovani SYN (SYN flood zaštita)
 - Višestruki SYN od istog klijenta → Server obrađuje samo prvi, ignorira duplikate.
 
 <p align="center">
   <img src="docs/Scenarij3.jpg" width="600"/>
 </p>
-<p align="center"><i>Slika 5. Neuspješna konekcija: duplikovani SYN </i></p>
+<p align="center"><i>Slika 4. Neuspješna konekcija: duplikovani SYN </i></p>
 
 ---
 
@@ -135,7 +127,7 @@ Tijekom procesa trostrukog rukovanja postoji 6 vrsta TCP stanja koja se nazivaju
 <p align="center">
   <img src="docs/TCP%20stanja.jpg" width="600"/>
 </p>
-<p align="center"><i>Slika 6. Tabela stanja za TCP </i></p>
+<p align="center"><i>Slika 5. Tabela stanja za TCP </i></p>
 
 ## TCP stanja – serverska strana
 
