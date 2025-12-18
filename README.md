@@ -29,8 +29,10 @@ Ovaj proces omogućava obje strane da se usaglase o početnim parametrima komuni
 ## Struktura TCP segmenta 
 Pakete u transportnom sloju nazivamo segmentima. Struktura TCP segmenta izgleda ovako (Slika 2) [2].
 
-<p align="center"> <img src="https://intronetworks.cs.luc.edu/current/uhtml/_images/tcp_header.svg" width="600"/> </p>
-<p align="center"><i>Slika 2. Struktura TCP segmenta</i></p>
+<p align="center">
+  <img src="docs/Struktura%20TCP%20segmenta.jpg" width="600"/>
+</p>
+<p align="center"><i>Slika 2. Struktura TCP segmenta </i></p>
 
 
 
