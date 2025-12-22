@@ -123,7 +123,7 @@ Razmjena se prikazuje sekvencijskim dijagramom.
 
 
 ## 3. Duplikovani SYN (SYN flood zaštita)
-- Klijent prvo šalje **SYN** s početnim sekvencijskim brojem 300, na što server odgovara **SYN-ACK** paketom sa svojim brojem 5000 i potvrdom klijentovog broja (ack=301). Klijent zatim šalje završni **ACK** (ack=5001), čime se veza formalno uspostavlja. Međutim, nakon toga stiže **novi SYN** s istim brojem kao prvi — duplikat koji može nastati zbog retransmisije, greške ili zlonamjerne radnje. Budući da server već ima aktivnu vezu s tim parametrima, prepoznaje duplikat i šalje **RST (reset)** paket s brojem 5001 kako bi odbacio taj zahtjev. TCP dizajn omogućava da se takvi duplikati ignoriraju bez prekida postojeće sesije, čime se osigurava stabilnost i sigurnost komunikacije. [1]
+- Klijent prvo šalje **SYN** s početnim sekvencijskim brojem x, na što server odgovara **SYN-ACK** paketom sa svojim brojem y i potvrdom klijentovog broja (ack=x+1). Klijent zatim šalje završni **ACK** (ack=y+1), čime se veza formalno uspostavlja. Međutim, nakon toga stiže **novi SYN** s istim brojem kao prvi — duplikat koji može nastati zbog retransmisije, greške ili zlonamjerne radnje. Budući da server već ima aktivnu vezu s tim parametrima, prepoznaje duplikat i šalje **RST (reset)** paket s brojem y+1 kako bi odbacio taj zahtjev. TCP dizajn omogućava da se takvi duplikati ignoriraju bez prekida postojeće sesije, čime se osigurava stabilnost i sigurnost komunikacije. [1]
 
 <p align="center">
   <img src="docs/Scenarij3_potpuni_paketi.jpg" width="600"/>
