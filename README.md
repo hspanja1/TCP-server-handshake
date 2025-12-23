@@ -111,6 +111,13 @@ Razmjena se prikazuje sekvencijskim dijagramom.
 </p>
 <p align="center"><i>Slika 3. Uspješan Handshake scenarij </i></p>
 
+## Wavedrom dijagram
+
+<p align="center">
+  <img src="docs/potpuna%20konekcija.png" width="600"/>
+</p>
+<p align="center"><i>Slika 4. Wavedrom dijagram za scenarij uspješne konekcije </i></p>
+
 
 ## 2. Neuspješna konekcija: Nepostojeći Port
 
@@ -119,7 +126,14 @@ Razmjena se prikazuje sekvencijskim dijagramom.
 <p align="center">
   <img src="docs/Scenarij2_potpuni_paketi.jpg" width="600"/>
 </p>
-<p align="center"><i>Slika 4. Neuspješna konekcija: Nepostojeći port </i></p>
+<p align="center"><i>Slika 5. Neuspješna konekcija: Nepostojeći port </i></p>
+
+## Wavedrom dijagram
+
+<p align="center">
+  <img src="docs/potpuna%20konekcija.png" width="600"/>
+</p>
+<p align="center"><i>Slika 6. Wavedrom dijagram za scenarij neuspješne konekcije (nepostojeći port) </i></p>
 
 
 ## 3. Duplikovani SYN (SYN flood zaštita)
@@ -128,17 +142,24 @@ Razmjena se prikazuje sekvencijskim dijagramom.
 <p align="center">
   <img src="docs/Scenarij3_potpuni_paketi.jpg" width="600"/>
 </p>
-<p align="center"><i>Slika 5. Neuspješna konekcija: duplikovani SYN </i></p>
+<p align="center"><i>Slika 7. Neuspješna konekcija: duplikovani SYN </i></p>
+
+## Wavedrom dijagram
+
+<p align="center">
+  <img src="docs/potpuna%20konekcija.png" width="600"/>
+</p>
+<p align="center"><i>Slika 8. Wavedrom dijagram za scenarij duplikovanog SYN-a </i></p>
 
 ---
 
 # TCP stanja
 
-Tijekom procesa trostrukog rukovanja postoji 6 vrsta TCP stanja koja se nazivaju: CLOSED, LISTEN, SYN-SENT, SYN-ACK SENT, SYN RCVD i ESTABLISHED. Donja tabela navodi detalje svakog stanja: (Slika 6) [3]
+Tijekom procesa trostrukog rukovanja postoji 6 vrsta TCP stanja koja se nazivaju: CLOSED, LISTEN, SYN-SENT, SYN-ACK SENT, SYN RCVD i ESTABLISHED. Donja tabela navodi detalje svakog stanja: (Slika 9) [3]
 <p align="center">
   <img src="docs/TCP%20stanja.jpg" width="600"/>
 </p>
-<p align="center"><i>Slika 6. Tabela stanja za TCP [3] </i></p>
+<p align="center"><i>Slika 9. Tabela stanja za TCP [3] </i></p>
 
 ## TCP stanja – serverska strana
 
