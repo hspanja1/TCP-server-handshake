@@ -1,7 +1,7 @@
 # TCP Server Handshake – Projekat
 
 ## Struktura repozitorija
-- 'docs/' – dijagrami (FSM, WaveDrom, sekvenijalni dijagrami)
+- 'docs/' – dijagrami (sekvencijalni, WaveDrom, FSM)
 - 'src/' – VHDL kod (entitet, arhitektura)
 - 'tb/' – testbench fajlovi
 - 'sim/' – rezultati simulacije (screenshotovi)
@@ -178,6 +178,16 @@ Kako je naš projekat fokusiran na **TCP server handshake**, u nastavku su izdvo
 
 </div>
 
+## Konačni automat
+
+Konačni automat (Finite State Machine – FSM) je tehnika modeliranja sekvencijalnih logičkih sklopova koja se može predstaviti dijagramom stanja ili hardverskom implementacijom. Dijagram stanja prikazuje sva moguća stanja sistema, uslove prelaza i izlazne vrijednosti, što olakšava vizualizaciju i razumijevanje logike rada. 
+
+Dijagram prikazuje ponašanje TCP servera kroz konačni automat (FSM) sa četiri osnovna stanja: **CLOSED**, **LISTEN**, **SYN_RCVD** i **ESTABLISHED**. U početnom stanju **CLOSED** server je neaktivan ili resetovan. Kada se inicijalizuje **(reset='0')**, prelazi u stanje **LISTEN**, gdje čeka dolazne konekcije. Ako nema validnog SYN paketa **(in_valid='0')**, ostaje u **LISTEN**; ali ako stigne validan SYN **(in_valid='1', in_sop='1')**, prelazi u **SYN_RCVD**. U tom stanju čeka završni ACK kako bi potvrdio konekciju. Ako ACK nije primljen, ostaje u **SYN_RCVD**; ako jeste (ACK flag sa validnim sekvencama), prelazi u **ESTABLISHED**. U **ESTABLISHED** stanju server aktivno komunicira dok su ulazi validni **(in_valid='1', out_ready='1')**. Konekcija se zatvara i vraća u **CLOSED** ako stigne RST, ako ACK prestane stizati, ili ako adrese više ne odgovaraju. FSM omogućava preciznu kontrolu toka TCP konekcije, osiguravajući stabilnu i sigurnu komunikaciju između servera i klijenta. Grafik konačnog automata korištenog za simulaciju TCP konekcije kreiran je upotrebom draw.io, besplatnog online alata za crtanje dijagrama.
+
+<p align="center">
+  <img src="docs/FSM.jpg" width="600"/>
+</p>
+<p align="center"><i>Slika 10. FSM dijagram </i></p>
 ---
 
 
@@ -198,5 +208,12 @@ Dostupno: https://wiki.wireshark.org/TCP_3_way_handshaking [pristupljeno: 14-pro
 
 [5] "Avalon® Interface Specifications - Intel" [Na internetu].  
 Dostupno: (https://cdrdv2-public.intel.com/667068/mnl_avalon_spec-683091-667068.pdf) [pristupljeno: 14-pro-2025].
+
+[6] "RFC 9293: Transmission Control Protocol (TCP)" [Na internetu].  
+Dostupno: (https://datatracker.ietf.org/doc/html/rfc9293) [pristupljeno: 29-pro-2025].
+
+
+
+
 
 
