@@ -129,9 +129,9 @@ Razmjena se prikazuje sekvencijskim dijagramom.
 <p align="center"><i>Slika 6. Wavedrom dijagram za ACK - scenarij uspješne konekcije </i></p>
 
 
-Cijela konekcija je podijeljena na **tri Wavedrom dijagrama radi preglednosti**, pri čemu svaki dijagram jasno prikazuje jednu fazu procesa. Kada klijent inicira konekciju, signal `in_valid` zajedno sa **in_sop** označava početak paketa, dok se u polju **in_data** pojavljuje oznaka *SYN paket*. Server odgovara kombiniranim *SYN+ACK paketom* kroz izlazne signale **out_valid, out_sop i out_data**, čime potvrđuje prijem inicijalnog zahtjeva. Završni korak prikazan je kroz dolazak *ACK paketa* od klijenta, nakon čega signal **is_connected** ostaje u visokom stanju, što označava uspješno uspostavljenu konekciju.
+Cijela konekcija je podijeljena na **tri Wavedrom dijagrama radi preglednosti**, pri čemu svaki dijagram jasno prikazuje jednu fazu procesa. Kada klijent inicira konekciju, signal **in_valid** zajedno sa **in_sop** označava početak paketa, dok se u polju **in_data** pojavljuje oznaka *SYN paket*. Server odgovara kombiniranim *SYN+ACK paketom* kroz izlazne signale **out_valid, out_sop i out_data**, čime potvrđuje prijem inicijalnog zahtjeva. Završni korak prikazan je kroz dolazak *ACK paketa* od klijenta, nakon čega signal **is_connected** ostaje u visokom stanju, što označava uspješno uspostavljenu konekciju.
 
-Signali `in_ready` i `out_ready` definišu spremnost za prijem i slanje podataka, dok **sop** (start of packet) i **eop** (end of packet) precizno označavaju granice paketa. Klijentski metapodaci (**client_mac, client_ip, client_port**) pojavljuju se nakon završetka handshakinga, čime se potvrđuje da je konekcija aktivna i spremna za daljnji prijenos podataka.
+Signali **in_ready** i **out_ready** definišu spremnost za prijem i slanje podataka, dok **sop** (start of packet) i **eop** (end of packet) precizno označavaju granice paketa. Klijentski metapodaci (**client_mac, client_ip, client_port**) pojavljuju se nakon završetka handshakinga, čime se potvrđuje da je konekcija aktivna i spremna za daljnji prijenos podataka.
 
 
 
@@ -143,14 +143,11 @@ Signali `in_ready` i `out_ready` definišu spremnost za prijem i slanje podataka
 <p align="center">
   <img src="docs/Scenarij2_potpuni_paketi.jpg" width="600"/>
 </p>
-<p align="center"><i>Slika 5. Neuspješna konekcija: Nepostojeći port </i></p>
+<p align="center"><i>Slika 7. Neuspješna konekcija: Nepostojeći port </i></p>
 
 ## Wavedrom dijagram
 
-<p align="center">
-  <img src="docs/potpuna%20konekcija.png" width="600"/>
-</p>
-<p align="center"><i>Slika 6. Wavedrom dijagram za scenarij neuspješne konekcije (nepostojeći port) </i></p>
+
 
 
 ## 3. Duplikovani SYN (SYN flood zaštita)
@@ -159,14 +156,11 @@ Signali `in_ready` i `out_ready` definišu spremnost za prijem i slanje podataka
 <p align="center">
   <img src="docs/Scenarij3_potpuni_paketi.jpg" width="600"/>
 </p>
-<p align="center"><i>Slika 7. Neuspješna konekcija: duplikovani SYN </i></p>
+<p align="center"><i>Slika 8. Neuspješna konekcija: duplikovani SYN </i></p>
 
 ## Wavedrom dijagram
 
-<p align="center">
-  <img src="docs/potpuna%20konekcija.png" width="600"/>
-</p>
-<p align="center"><i>Slika 8. Wavedrom dijagram za scenarij duplikovanog SYN-a </i></p>
+
 
 ---
 
