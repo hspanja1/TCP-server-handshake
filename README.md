@@ -147,7 +147,10 @@ Signali **in_ready** i **out_ready** definišu spremnost za prijem i slanje poda
 
 ## Wavedrom dijagram
 
-
+<p align="center">
+  <img src="docs/syn paket sa port greskom.png" width="600"/>
+</p>
+<p align="center"><i>Slika 8. Neuspješna konekcija: Nepostojeći port </i></p>
 
 
 ## 3. Duplikovani SYN (SYN flood zaštita)
@@ -160,7 +163,10 @@ Signali **in_ready** i **out_ready** definišu spremnost za prijem i slanje poda
 
 ## Wavedrom dijagram
 
-
+<p align="center">
+  <img src="docs/duplikovani syn.png" width="600"/>
+</p>
+<p align="center"><i>Slika 8. Neuspješna konekcija: Nepostojeći port </i></p>
 
 ---
 
