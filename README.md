@@ -114,17 +114,17 @@ Razmjena se prikazuje sekvencijskim dijagramom.
 ## Wavedrom dijagram
 
 <p align="center">
-  <img src="docs/syn.png" width="600"/>
+  <img src="docs/SYN_paket.png" width="600"/>
 </p>
 <p align="center"><i>Slika 4. Wavedrom dijagram za SYN - scenarij uspješne konekcije </i></p>
 
 <p align="center">
-  <img src="docs/syn+ack.png" width="600"/>
+  <img src="docs/SYN_ACK_paket.png" width="600"/>
 </p>
 <p align="center"><i>Slika 5. Wavedrom dijagram za SYN-ACK - scenarij uspješne konekcije </i></p>
 
 <p align="center">
-  <img src="docs/ack.png" width="600"/>
+  <img src="docs/ACK_paket.png" width="600"/>
 </p>
 <p align="center"><i>Slika 6. Wavedrom dijagram za ACK - scenarij uspješne konekcije </i></p>
 
