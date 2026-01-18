@@ -133,22 +133,29 @@ Cijela konekcija je podijeljena na **tri Wavedrom dijagrama radi preglednosti**,
 
 Signali **in_ready** i **out_ready** definišu spremnost za prijem i slanje podataka, dok **sop** (start of packet) i **eop** (end of packet) precizno označavaju granice paketa. Klijentski metapodaci (**client_mac, client_ip, client_port**) pojavljuju se nakon završetka handshakinga, čime se potvrđuje da je konekcija aktivna i spremna za daljnji prijenos podataka.
 
-## Paketi i bajtovi
 
-U Scenariju 1 (SYN paket) ulazni bajtovi u `in_data` imaju sljedeće značenje:  
-- **D1–D14 (Ethernet header)**  
-  - D1–D6: Destination MAC  
-  - D7–D12: Source MAC  
-  - D13–D14: EtherType (0x0800 = IPv4)  
-- **D15–D34 (IPv4 header)**  
-  - D15: verzija i dužina zaglavlja  
-  - D16: ToS (Type of Service)  
-  - D17–D18: Ukupna dužina paketa  
-  - D19–D34: ostala IPv4 polja (identifikacija, TTL, protokol, IP adrese)  
-- **D35–D42 (TCP header)**  
-- **D43–D50 (Payload)**
+U Scenariju 1 (SYN paket i završni ACK paket) bajtovi koji ulaze kroz signal in_data imaju sljedeće značenje:
+- **E1–E22 (Ethernet header)**  
+  - E1–E7: Preambula
+  - E8: Start of Frame Delimiter (SFD) - početak stvarnog Ethernet okvira
+  - E9-E14: Destination MAC Address
+  - E15-E20: Source MAC Address
+  - E21-E22: EtherType / Length
+- **I1-I20 (IPv4 header)**
+  - I1: verzija i dužina zaglavlja  
+  - I2: ToS (Type of Service)  
+  - I3-I4: Ukupna dužina paketa
+  - I5-I20: ostala IPv4 polja (identifikacija, TTL, protokol, IP adrese)  
+- **T1-T20 (TCP header)**
+- T1-T2: Source port
+- T3-T4: Destination port
+- T5-T8: Sequence number - označava redni broj prvog bajta u segmentu (koristi se za praćenje podataka)
+- T9-T12: Acknowledgment Number - označava sljedeći očekivani bajt od pošiljaoca. Aktivno samo kada je ACK flag postavljen.
+- T13-T16: Kontrola toka i flagovi
+- T17-T20: Checksum + Urgent pointer
+- **E23-E26 (CRC Checksum)**
 
-Izlazni paket SYN+ACK (`out_data`) također se prenosi bajt-po-bajt i uključuje odgovarajuća zaglavlja s potvrdom prijema.
+Izlazni paket SYN+ACK (out_data) prenosi se bajt po bajt i sadrži sva odgovarajuća zaglavlja, uključujući polja koja potvrđuju prijem inicijalnog SYN paketa.
 
 
 
