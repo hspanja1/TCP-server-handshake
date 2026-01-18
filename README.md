@@ -147,12 +147,12 @@ U Scenariju 1 (SYN paket i završni ACK paket) bajtovi koji ulaze kroz signal in
   - I3-I4: Ukupna dužina paketa
   - I5-I20: ostala IPv4 polja (identifikacija, TTL, protokol, IP adrese)  
 - **T1-T20 (TCP header)**
-- T1-T2: Source port
-- T3-T4: Destination port
-- T5-T8: Sequence number - označava redni broj prvog bajta u segmentu (koristi se za praćenje podataka)
-- T9-T12: Acknowledgment Number - označava sljedeći očekivani bajt od pošiljaoca. Aktivno samo kada je ACK flag postavljen.
-- T13-T16: Kontrola toka i flagovi
-- T17-T20: Checksum + Urgent pointer
+  - T1-T2: Source port
+  - T3-T4: Destination port
+  - T5-T8: Sequence number - označava redni broj prvog bajta u segmentu (koristi se za praćenje podataka)
+  - T9-T12: Acknowledgment Number - označava sljedeći očekivani bajt od pošiljaoca. Aktivno samo kada je ACK flag postavljen.
+  - T13-T16: Kontrola toka i flagovi
+  - T17-T20: Checksum + Urgent pointer
 - **E23-E26 (CRC Checksum)**
 
 Izlazni paket SYN+ACK (out_data) prenosi se bajt po bajt i sadrži sva odgovarajuća zaglavlja, uključujući polja koja potvrđuju prijem inicijalnog SYN paketa.
