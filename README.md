@@ -129,10 +129,26 @@ Razmjena se prikazuje sekvencijskim dijagramom.
 <p align="center"><i>Slika 6. Wavedrom dijagram za ACK - scenarij uspješne konekcije </i></p>
 
 
-Cijela konekcija je podijeljena na **tri Wavedrom dijagrama radi preglednosti**, pri čemu svaki dijagram jasno prikazuje jednu fazu procesa. Kada klijent inicira konekciju, signal **in_valid** zajedno sa **in_sop** označava početak paketa, dok se u polju **in_data** pojavljuje oznaka *SYN paket*. Server odgovara kombiniranim *SYN+ACK paketom* kroz izlazne signale **out_valid, out_sop i out_data**, čime potvrđuje prijem inicijalnog zahtjeva. Završni korak prikazan je kroz dolazak *ACK paketa* od klijenta, nakon čega signal **is_connected** ostaje u visokom stanju, što označava uspješno uspostavljenu konekciju.
+Cijela konekcija je podijeljena na **tri Wavedrom dijagrama radi preglednosti**, pri čemu svaki dijagram jasno prikazuje jednu fazu procesa: SYN, SYN-ACK i ACK. Kada klijent inicira konekciju, signal **in_valid** zajedno sa **in_sop** označava početak paketa, dok se u polju **in_data** pojavljuje oznaka *SYN paket*. Server u ovom trenutku još uvijek se nalazi u **LISTEN** stanju. Server nakon primitka SYN paketa prelazi u stanje **SYN_RECEIVED** i šalje kombinirani **SYN+ACK paket** kroz izlazne signale **out_valid, out_sop i out_data**. Time potvrđuje prijem inicijalnog zahtjeva i priprema uspostavljanje konekcije. Završni korak uključuje slanje **ACK paketa** od strane klijenta. Tek nakon što server pošalje ili obradi ACK paket, signal **is_connected** prelazi u visoko stanje, što označava da je TCP konekcija **uspješno uspostavljena**, a server ulazi u stanje **ESTABLISHED**.
 
 Signali **in_ready** i **out_ready** definišu spremnost za prijem i slanje podataka, dok **sop** (start of packet) i **eop** (end of packet) precizno označavaju granice paketa. Klijentski metapodaci (**client_mac, client_ip, client_port**) pojavljuju se nakon završetka handshakinga, čime se potvrđuje da je konekcija aktivna i spremna za daljnji prijenos podataka.
 
+## Paketi i bajtovi
+
+U Scenariju 1 (SYN paket) ulazni bajtovi u `in_data` imaju sljedeće značenje:  
+- **D1–D14 (Ethernet header)**  
+  - D1–D6: Destination MAC  
+  - D7–D12: Source MAC  
+  - D13–D14: EtherType (0x0800 = IPv4)  
+- **D15–D34 (IPv4 header)**  
+  - D15: verzija i dužina zaglavlja  
+  - D16: ToS (Type of Service)  
+  - D17–D18: Ukupna dužina paketa  
+  - D19–D34: ostala IPv4 polja (identifikacija, TTL, protokol, IP adrese)  
+- **D35–D42 (TCP header)**  
+- **D43–D50 (Payload)**
+
+Izlazni paket SYN+ACK (`out_data`) također se prenosi bajt-po-bajt i uključuje odgovarajuća zaglavlja s potvrdom prijema.
 
 
 
