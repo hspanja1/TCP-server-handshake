@@ -171,7 +171,7 @@ Izlazni paket SYN+ACK (out_data) prenosi se bajt po bajt i sadrži sva odgovaraj
 ## Wavedrom dijagram
 
 <p align="center">
-  <img src="docs/syn paket sa port greskom.png" width="600"/>
+  <img src="docs/Scenarij2.png" width="600"/>
 </p>
 <p align="center"><i>Slika 8. Neuspješna konekcija: Nepostojeći port </i></p>
 
