@@ -189,7 +189,7 @@ Izlazni paket SYN+ACK (out_data) prenosi se bajt po bajt i sadrži sva odgovaraj
 <p align="center">
   <img src="docs/duplikovani syn.png" width="600"/>
 </p>
-<p align="center"><i>Slika 8. Neuspješna konekcija: Nepostojeći port </i></p>
+<p align="center"><i>Slika 8. Neuspješna konekcija: Duplikovani SYN (SYN flood zaštita) </i></p>
 
 ---
 
