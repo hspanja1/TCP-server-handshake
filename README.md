@@ -239,7 +239,7 @@ Konačni automat (Finite State Machine – FSM) je tehnika modeliranja sekvencij
 Dijagram prikazuje ponašanje TCP servera kroz konačni automat (FSM) sa četiri osnovna stanja: **CLOSED**, **LISTEN**, **SYN_RCVD** i **ESTABLISHED**. U početnom stanju **CLOSED** server je neaktivan ili resetovan. Kada se inicijalizuje **(reset='0')**, prelazi u stanje **LISTEN**, gdje čeka dolazne konekcije. Ako nema validnog SYN paketa **(in_valid='0')**, ostaje u **LISTEN**; ali ako stigne validan SYN **(in_valid='1', in_sop='1')**, prelazi u **SYN_RCVD**. U tom stanju čeka završni ACK kako bi potvrdio konekciju. Ako ACK nije primljen, ostaje u **SYN_RCVD**; ako jeste (ACK flag sa validnim sekvencama), prelazi u **ESTABLISHED**. U **ESTABLISHED** stanju server aktivno komunicira dok su ulazi validni **(in_valid='1', out_ready='1')**. Konekcija se zatvara i vraća u **CLOSED** ako stigne RST, ako ACK prestane stizati, ili ako adrese više ne odgovaraju. FSM omogućava preciznu kontrolu toka TCP konekcije, osiguravajući stabilnu i sigurnu komunikaciju između servera i klijenta. Grafik konačnog automata korištenog za simulaciju TCP konekcije kreiran je upotrebom draw.io, besplatnog online alata za crtanje dijagrama.
 
 <p align="center">
-  <img src="docs/FSM_dijagram.png" width="600"/>
+  <img src="docs/FSM_dijagram.drawio.png" width="600"/>
 </p>
 <p align="center"><i>Slika 13. FSM dijagram </i></p>
 ---
