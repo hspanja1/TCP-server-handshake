@@ -187,10 +187,24 @@ Izlazni paket SYN+ACK (out_data) prenosi se bajt po bajt i sadrži sva odgovaraj
 ## Wavedrom dijagram
 
 <p align="center">
-  <img src="docs/duplikovani syn.png" width="600"/>
+  <img src="docs/SYN_paket.png" width="600"/>
 </p>
-<p align="center"><i>Slika 8. Neuspješna konekcija: Duplikovani SYN (SYN flood zaštita) </i></p>
+<p align="center"><i>Slika 8. SYN paket </i></p>
 
+<p align="center">
+  <img src="docs/SYN_ACK_paket.png" width="600"/>
+</p>
+<p align="center"><i>Slika 9. SYN-ACK paket </i></p>
+
+<p align="center">
+  <img src="docs/ACK_paket.png" width="600"/>
+</p>
+<p align="center"><i>Slika 10. ACK paket </i></p>
+
+<p align="center">
+  <img src="docs/SYN_duplicate_RST_paketi.png" width="600"/>
+</p>
+<p align="center"><i>Slika 11. SYN (duplicate) + RST paket </i></p>
 ---
 
 # TCP stanja
@@ -199,7 +213,7 @@ Tijekom procesa trostrukog rukovanja postoji 6 vrsta TCP stanja koja se nazivaju
 <p align="center">
   <img src="docs/TCP%20stanja.jpg" width="600"/>
 </p>
-<p align="center"><i>Slika 9. Tabela stanja za TCP [3] </i></p>
+<p align="center"><i>Slika 12. Tabela stanja za TCP [3] </i></p>
 
 ## TCP stanja – serverska strana
 
@@ -227,7 +241,7 @@ Dijagram prikazuje ponašanje TCP servera kroz konačni automat (FSM) sa četiri
 <p align="center">
   <img src="docs/FSM.jpg" width="600"/>
 </p>
-<p align="center"><i>Slika 10. FSM dijagram </i></p>
+<p align="center"><i>Slika 13. FSM dijagram </i></p>
 ---
 
 
