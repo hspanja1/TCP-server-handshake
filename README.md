@@ -284,6 +284,32 @@ Preglednik stanja (engl. State Machine Viewer) pruža grafički prikaz konačnog
 
 ## Verifikacija pomoću simulacijskog alata ModelSim
 
+U svrhu verifikacije funkcionalnosti i robusnosti projektovanog TCP servera, kreirana su tri testbench scenarija koja u potpunosti pokrivaju logiku uspostavljanja i raskida konekcije. Ovi scenariji obuhvataju: uspješno trostruko rukovanje (engl. 3-way handshake), odbijanje konekcije slanjem RST-ACK paketa usljed neispravnih mrežnih parametara, te detekciju i terminaciju veze u slučaju pristizanja dupliranog SYN paketa u već uspostavljenom stanju. U nastavku je dat detaljan opis scenarija, uz grafički prikaz signala u simulacijskom alatu ModelSim. Zbog dužine mrežnog okvira od 62 bajta i kompleksnosti Avalon-ST protokola, signali su prikazani kroz faze (prijem ulaznog paketa i slanje odgovora) radi maksimalne preglednosti.
+
+### Scenario 1: Uspješna konekcija (SYN -> SYN-ACK -> ACK)
+Prvi testbench simulira standardni proces uspostave veze. Kroz sekvencijalno slanje bajtova, klijent šalje validan SYN paket. ModelSim verifikacija potvrđuje da server ispravno parsira zaglavlja, podiže `flag_syn`, te na osnovu toga generiše SYN-ACK odgovor. Finalna uspostava veze se potvrđuje prijemom ACK paketa, nakon čega signal `is_connected` trenutno prelazi u stanje visoke logičke razine, signalizirajući prelazak u stanje `ESTABLISHED`.
+
+<p align="center">
+  <img src="sim/syn.PNG" width="600"/>
+</p>
+<p align="center"><i>Slika 16. SYN paket </i></p>
+
+<p align="center">
+  <img src="sim/syn+ack%20slanje%20sa%20servera.PNG" width="600"/>
+</p>
+<p align="center"><i>Slika 17. SYN-ACK paket </i></p>
+
+
+<p align="center">
+  <img src="sim/ack%20paket.PNG" width="600"/>
+</p>
+<p align="center"><i>Slika 18. ACK paket </i></p>
+
+### Scenario 2: Odbijanje konekcije (Pogrešan port)
+Drugi testbench simulira situaciju u kojoj klijent šalje zahtjev na port koji server ne osluškuje. Simulacija pokazuje kako sklop aktivira `flag_error` tokom inspekcije TCP zaglavlja. Na kraju paketa, State mašina umjesto u proces rukovanja prelazi u stanje `CLOSED`, generišući RST-ACK paket klijentu, čime se verifikuje sigurnosna logika servera i ispravan povratak u početno stanje `LISTEN`.
+
+### Scenario 3: Dupli SYN paket (Established -> RST)
+Treći testbench provjerava ponašanje servera u specifičnom scenariju kada klijent pošalje SYN paket na već aktivnu konekciju. ModelSim simulacija potvrđuje da sklop, uprkos stanju `ESTABLISHED`, kontinuirano vrši inspekciju dolaznog toka podataka. Detekcijom duplog SYN-a, server trenutno inicira raskid veze slanjem RST paketa, što je u potpunosti usklađeno sa specifikacijom i priloženim dijagramima sekvenci.
 
 
 ## Literatura
