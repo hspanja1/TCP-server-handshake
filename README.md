@@ -234,9 +234,21 @@ Kako je naš projekat fokusiran na **TCP server handshake**, u nastavku su izdvo
 
 ## Konačni automat
 
-Konačni automat (Finite State Machine – FSM) je tehnika modeliranja sekvencijalnih logičkih sklopova koja se može predstaviti dijagramom stanja ili hardverskom implementacijom. Dijagram stanja prikazuje sva moguća stanja sistema, uslove prelaza i izlazne vrijednosti, što olakšava vizualizaciju i razumijevanje logike rada. 
+Konačni automat (engl. Finite State Machine) predstavlja ključnu tehniku modeliranja sekvencijalnih logičkih sklopova koja omogućava precizno upravljanje stanjima sistema u zavisnosti od ulaznih signala. Za potrebe implementacije TCP Server Handshake protokola, dizajniran je automat koji upravlja tokom podataka kroz Avalon-ST interfejs, vršeći inspekciju mrežnih paketa na nivou Ethernet, IP i TCP zaglavlja. Specifičnost ovog automata je upotreba indikatorskih signala (tzv. "blur" flagova) koji omogućavaju sklopu da tokom prijema paketa "zapamti" bitne informacije (poput prisustva SYN ili ACK flegova, te ispravnosti adresa), kako bi se konačna odluka o prelasku u naredno stanje donijela isključivo na kraju paketa (signal  `in_eop`). Ovakav pristup osigurava robustnost sistema i sprečava neželjene prelaze usljed šuma ili nekompletnih podataka.
 
-Dijagram prikazuje ponašanje TCP servera kroz konačni automat (FSM) sa četiri osnovna stanja: **CLOSED**, **LISTEN**, **SYN_RCVD** i **ESTABLISHED**. U početnom stanju **CLOSED** server je neaktivan ili resetovan. Kada se inicijalizuje **(reset=='0')**, prelazi u stanje **LISTEN**, gdje čeka dolazne konekcije. Ako nema validnog SYN paketa **(in_valid=='0')**, ostaje u **LISTEN**; ali ako stigne validan SYN **(in_valid=='1', in_sop=='1')**, prelazi u **SYN_RCVD**. U tom stanju čeka završni ACK kako bi potvrdio konekciju. Ako ACK nije primljen, ostaje u **SYN_RCVD**; ako jeste (ACK flag sa validnim sekvencama), prelazi u **ESTABLISHED**. U **ESTABLISHED** stanju server aktivno komunicira dok su ulazi validni **(in_valid=='1', out_ready=='1')**. Konekcija se zatvara i vraća u **CLOSED** ako stigne RST, ako ACK prestane stizati, ili ako adrese više ne odgovaraju. FSM omogućava preciznu kontrolu toka TCP konekcije, osiguravajući stabilnu i sigurnu komunikaciju između servera i klijenta. Grafik konačnog automata korištenog za simulaciju TCP konekcije kreiran je upotrebom draw.io, besplatnog online alata za crtanje dijagrama.
+Dizajnirani automat obuhvata ukupno pet stanja:
+
+- **LISTEN**: Inicijalno stanje u kojem server čeka dolazni SYN paket,
+- **SYN_RCVD**: Stanje u kojem server šalje SYN-ACK odgovor klijentu,
+- **WAIT_ACK**: Čekanje na finalni ACK paket od strane klijenta,
+- **ESTABLISHED**: Stanje uspostavljene veze u kojem je signal `is_connected` aktivan,
+- **CLOSED**: Pomoćno stanje za slanje RST (Reset) paketa u slučaju greške ili raskida veze.
+
+Proces započinje u stanju **LISTEN**, gdje automat ostaje sve dok signal reset ne vrati sistem u bazu. Dolaskom prvog bajta paketa (`in_sop = '1'`), aktivira se brojač bajtova koji omogućava parsiranje zaglavlja. Unutar ovog stanja vrši se validacija `SERVER_MAC`, `SERVER_IP` i `SERVER_PORT` parametara. Ukoliko se bilo koji od ovih parametara ne podudara sa očekivanim vrijednostima, aktivira se `flag_error`. Na kraju paketa (`in_eop = '1'`), automat provjerava status flagova: ako je detektovana greška, prelazi se u stanje **CLOSED**, a ako je primljen ispravan SYN paket bez grešaka, prelazi se u **SYN_RCVD**. U stanjima **SYN_RCVD** i **CLOSED** automat preuzima ulogu transmitera. Koristeći brojač `tx_pos` i uvažavajući `out_ready signal` (backpressure mehanizam), server šalje generisani paket od 62 bajta. Iz stanja **SYN_RCVD**, nakon uspješnog slanja, prelazi se u **WAIT_ACK**, dok se iz stanja **CLOSED** sistem vraća u **LISTEN**.
+
+U stanju **WAIT_ACK**, automat ponovo vrši inspekciju dolaznog paketa tražeći ACK fleg. Ukoliko se detektuje validan ACK na kraju paketa, automat prelazi u finalno stanje **ESTABLISHED**, čime se indicira uspješno uspostavljena konekcija i omogućava nulto kašnjenje signala `is_connected`. Automat podržava i scenario detekcije duplog SYN paketa unutar stanja **ESTABLISHED**; u tom slučaju, sistem prepoznaje zahtjev za resetovanjem, prelazi u stanje **CLOSED** kako bi poslao RST paket klijentu, te se vraća u stanje **LISTEN**. 
+
+Grafički prikaz konačnog automata (FSM dijagram) kreiran je upotrebom alata **draw.io**, dok je verifikacija logičkih prelaza potvrđena kroz **State Machine Viewer** unutar Intel Quartus Prime okruženja.
 
 <p align="center">
   <img src="docs/FSM.png" width="600"/>
