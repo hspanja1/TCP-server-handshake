@@ -256,6 +256,19 @@ Grafički prikaz konačnog automata (FSM dijagram) kreiran je upotrebom alata **
 <p align="center"><i>Slika 13. FSM dijagram </i></p>
 ---
 
+## Modeliranje sklopa u VHDL-u
+
+Na osnovu prethodno definisanih signala i dijagrama stanja, sklop je modeliran korištenjem jezika za opis hardvera – VHDL. Arhitektura modula zasnovana je na sekvencijalnom procesu koji sinhrono upravlja stanjima automata, brojačima i unutrašnjim registrima na uzlaznu ivicu takta. Za razliku od parsera koji odluke o prelazima donose trenutno, ovaj dizajn implementira tehniku indikatorskih flagova (engl. blur flags). Ovi flagovi tokom prijema paketa akumuliraju informacije o validnosti odredišne MAC adrese, IP adrese i TCP porta, kao i prisustvu specifičnih TCP flagova (SYN, ACK). Finalna odluka o tranziciji u naredno stanje donosi se isključivo na granici paketa, odnosno kada signal `in_eop` postane aktivan. Ovakav pristup osigurava visoku otpornost na neispravne pakete i sprječava trke signala (race conditions).
+
+Posebna pažnja posvećena je implementaciji Avalon-ST interfejsa. Izlazni signali poput `out_valid`, `out_sop` i `out_eop` definisani su konkurentnim dodjelama izvan glavnog procesa kako bi se eliminisale kombinatorne petlje između `valid` i `ready` signala, što je strogi zahtjev Avalon-ST standarda. Za generisanje odgovora servera (SYN-ACK ili RST paketa) korištena je pomoćna funkcija `get_tx_byte`. Ova funkcija na osnovu trenutne pozicije brojača `tx_pos` i selektovanog tipa paketa precizno konstruiše mrežni okvir bajt po bajt, uključujući Ethernet, IP i TCP zaglavlja. Signal `is_connected je takođe modeliran kombinatorno van procesa, čime je omogućena njegova trenutna aktivacija čim automat pređe u stanje `ESTABLISHED`, bez dodatnog kašnjenja od jednog takta.
+
+U nastavku je prikazan detaljan izvještaj o procesu kompilacije dizajna (engl. compilation report).
+
+<p align="center">
+  <img src="docs/Compilation_Report.png" width="600"/>
+</p>
+<p align="center"><i>Slika 14. Compilation Report </i></p>
+
 
 ## Literatura
 
