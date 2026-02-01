@@ -161,7 +161,7 @@ Izlazni paket SYN+ACK (out_data) prenosi se bajt po bajt i sadrži sva odgovaraj
 
 ## 2. Neuspješna konekcija: Nepostojeći Port
 
-- Klijent šalje **SYN** na port koji server ne sluša **(npr. SERVER_PORT mismatch)**, server odgovara **RST-ACK** (seq=0, ack=seq_klijent+1) i odbija konekciju. Modul ostaje u **LISTEN** stanju bez promjene stanja. Ovo sprječava neovlašteni pristup. [1]​
+- Klijent šalje **SYN** paket na port koji server ne sluša (npr. `SERVER_PORT` mismatch). Interna logika parsera tokom obrade TCP zaglavlja detektuje neslaganje portova i aktivira indikator `flag_error`. Po prijemu signala `in_eop`, u skladu sa pravilima sinhrone logike, automat u narednom taktnom ciklusu prelazi iz stanja **LISTEN** u stanje **CLOSED**. U ovom stanju server generiše i šalje **RST-ACK** paket (seq=0, ack=seq_klijent+1) čime formalno odbija zahtjev. Po završetku slanja (nakon 62 takta podataka i jednog pripremnog takta), modul se vraća u stanje **LISTEN**. Ovakav mehanizam osigurava da server ostane u pripravnosti za nove zahtjeve, istovremeno jasno signalizirajući klijentu da je pristup odbijen. [1]​
 
 <p align="center">
   <img src="docs/Scenarij2_potpuni_paketi.jpg" width="600"/>
