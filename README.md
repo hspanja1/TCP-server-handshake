@@ -308,8 +308,45 @@ Prvi testbench simulira standardni proces uspostave veze. Kroz sekvencijalno sla
 ### Scenario 2: Odbijanje konekcije (Pogrešan port)
 Drugi testbench simulira situaciju u kojoj klijent šalje zahtjev na port koji server ne osluškuje. Simulacija pokazuje kako sklop aktivira `flag_error` tokom inspekcije TCP zaglavlja. Na kraju paketa, State mašina umjesto u proces rukovanja prelazi u stanje `CLOSED`, generišući RST-ACK paket klijentu, čime se verifikuje sigurnosna logika servera i ispravan povratak u početno stanje `LISTEN`.
 
+<p align="center">
+  <img src="sim/neispravan_port_rst_paket.PNG" width="600"/>
+</p>
+<p align="center"><i>Slika 19. Neispravan port </i></p>
+
+<p align="center">
+  <img src="sim/neispravna_ip_adresa_rst_paket.PNG" width="600"/>
+</p>
+<p align="center"><i>Slika 20. Neispravna IP adresa </i></p>
+
+
+<p align="center">
+  <img src="sim/neispravna_mac_adresa_rst_paket.PNG" width="600"/>
+</p>
+<p align="center"><i>Slika 21. Neispravna MAC adresa </i></p>
+
 ### Scenario 3: Dupli SYN paket (Established -> RST)
 Treći testbench provjerava ponašanje servera u specifičnom scenariju kada klijent pošalje SYN paket na već aktivnu konekciju. ModelSim simulacija potvrđuje da sklop, uprkos stanju `ESTABLISHED`, kontinuirano vrši inspekciju dolaznog toka podataka. Detekcijom duplog SYN-a, server trenutno inicira raskid veze slanjem RST paketa, što je u potpunosti usklađeno sa specifikacijom i priloženim dijagramima sekvenci.
+
+<p align="center">
+  <img src="sim/syn.PNG" width="600"/>
+</p>
+<p align="center"><i>Slika 22. SYN paket </i></p>
+
+<p align="center">
+  <img src="sim/syn+ack%20slanje%20sa%20servera.PNG" width="600"/>
+</p>
+<p align="center"><i>Slika 23. SYN-ACK paket </i></p>
+
+
+<p align="center">
+  <img src="sim/ack%20paket.PNG" width="600"/>
+</p>
+<p align="center"><i>Slika 24. ACK paket </i></p>
+
+<p align="center">
+  <img src="sim/ack+rst_za_dupli_syn.PNG" width="600"/>
+</p>
+<p align="center"><i>Slika 25. Dupli SYN + RST paketi </i></p>
 
 
 ## Literatura
