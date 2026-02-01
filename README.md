@@ -161,7 +161,11 @@ Izlazni paket SYN+ACK (out_data) prenosi se bajt po bajt i sadrži sva odgovaraj
 
 ## 2. Neuspješna konekcija: Nepostojeći Port
 
-- Klijent šalje **SYN** paket na port koji server ne sluša (npr. `SERVER_PORT` mismatch). Interna logika parsera tokom obrade TCP zaglavlja detektuje neslaganje portova i aktivira indikator `flag_error`. Po prijemu signala `in_eop`, u skladu sa pravilima sinhrone logike, automat u narednom taktnom ciklusu prelazi iz stanja **LISTEN** u stanje **CLOSED**. U ovom stanju server generiše i šalje **RST-ACK** paket (seq=0, ack=seq_klijent+1) čime formalno odbija zahtjev. Po završetku slanja (nakon 62 takta podataka i jednog pripremnog takta), modul se vraća u stanje **LISTEN**. Ovakav mehanizam osigurava da server ostane u pripravnosti za nove zahtjeve, istovremeno jasno signalizirajući klijentu da je pristup odbijen. [1]​
+- Klijent šalje **SYN** paket na port koji server ne sluša (npr. `SERVER_PORT` mismatch). Interna logika parsera tokom obrade TCP zaglavlja detektuje neslaganje portova i aktivira indikator `flag_error`. Po prijemu signala `in_eop`, u skladu sa pravilima sinhrone logike, automat u narednom taktnom ciklusu prelazi iz stanja **LISTEN** u stanje **CLOSED**.
+
+- U ovom stanju server generiše i šalje **RST-ACK** paket čime formalno odbija zahtjev. **Verifikacija ovog scenarija u simulacijskom okruženju (ModelSim) vrši se inspekcijom polja zastavica (flags) unutar TCP zaglavlja, koje se nalazi na 56. bajtu mrežnog okvira.** Na priloženim waveform dijagramima, marker je postavljen upravo na trenutak slanja ovog polja, gdje se u signalu `out_data` očitava heksadecimalna vrijednost **x"14"** (binarno `00010100`), što potvrđuje aktivaciju **RST** i **ACK** zastavica. Za poređenje, prilikom uspješnog trostrukog rukovanja (Scenario 1), server na istoj poziciji šalje vrijednost **x"12"** (binarno `00010010`), što označava **SYN** i **ACK** zastavice.
+
+- Po završetku slanja (nakon 62 takta podataka i jednog pripremnog takta), modul se vraća u stanje **LISTEN**. Ovakav mehanizam osigurava da server ostane u pripravnosti za nove zahtjeve, istovremeno jasno signalizirajući klijentu da je pristup odbijen, čime se sprječava bespotrebno zauzeće resursa servera. [1]​
 
 <p align="center">
   <img src="docs/Scenarij2_potpuni_paketi.jpg" width="600"/>
