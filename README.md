@@ -348,24 +348,17 @@ Projektni zadatak implementacije TCP Server Handshake modula uspješno je realiz
 
 ## Literatura
 
+[1] "TCP Connection Establishment and Termination" [Na internetu]. Dostupno: https://people.na.infn.it/~garufi/didattica/CorsoAcq/Trasp/Lezione9/tcpip_ill/tcp_conn.htm [Pristupano: 01.02.2026.].
 
-[1] "TCP Connection Establishment and Termination" [Na internetu].  
-Dostupno:(https://people.na.infn.it/~garufi/didattica/CorsoAcq/Trasp/Lezione9/tcpip_ill/tcp_conn.htm) 
+[2] "TCP/IP – Transportni sloj," u *Mreže – Layer-X*. [Na internetu]. Dostupno: http://mreze.layer-x.com/s040100-0.html [Pristupano: 05.12.2025.].
 
-[2] "TCP/IP – Transportni sloj," u *Mreže – Layer-X*. [Na internetu].  
-Dostupno: http://mreze.layer-x.com/s040100-0.html#google_vignette 
+[3] "TCP 3-Way Handshake Process," u *NetworkWalks*. [Na internetu]. Dostupno: https://networkwalks.com/tcp-3-way-handshake-process/ [Pristupano: 17.12.2025.].
 
-[3] "TCP 3-Way Handshake Process," u *NetworkWalks*. [Na internetu].  
-Dostupno: https://networkwalks.com/tcp-3-way-handshake-process/ 
+[4] "TCP 3-Way Handshaking," u *Wireshark Wiki*. [Na internetu]. Dostupno: https://wiki.wireshark.org/TCP_3_way_handshaking [Pristupano: 27.12.2025.].
 
-[4] "TCP 3-Way Handshaking," u *Wireshark Wiki*. [Na internetu].  
-Dostupno: https://wiki.wireshark.org/TCP_3_way_handshaking 
+[5] "Avalon® Interface Specifications - Intel" [Na internetu]. Dostupno: https://cdrdv2-public.intel.com/667068/mnl_avalon_spec-683091-667068.pdf [Pristupano: 10.01.2026.].
 
-[5] "Avalon® Interface Specifications - Intel" [Na internetu].  
-Dostupno: (https://cdrdv2-public.intel.com/667068/mnl_avalon_spec-683091-667068.pdf) 
-
-[6] "RFC 9293: Transmission Control Protocol (TCP)" [Na internetu].  
-Dostupno: (https://datatracker.ietf.org/doc/html/rfc9293) 
+[6] "RFC 9293: Transmission Control Protocol (TCP)" [Na internetu]. Dostupno: https://datatracker.ietf.org/doc/html/rfc9293 [Pristupano: 19.01.2026.].
 
 
 
