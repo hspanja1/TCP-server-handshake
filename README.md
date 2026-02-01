@@ -205,32 +205,8 @@ Izlazni paket SYN+ACK (out_data) prenosi se bajt po bajt i sadrži sva odgovaraj
   <img src="docs/SYN_duplicate_RST_paketi.png" width="600"/>
 </p>
 <p align="center"><i>Slika 11. SYN (duplicate) + RST paket </i></p>
+
 ---
-
-# TCP stanja
-
-Tijekom procesa trostrukog rukovanja postoji 6 vrsta TCP stanja koja se nazivaju: CLOSED, LISTEN, SYN-SENT, SYN-ACK SENT, SYN RCVD i ESTABLISHED. Donja tabela navodi detalje svakog stanja: (Slika 9) [3]
-<p align="center">
-  <img src="docs/TCP%20stanja.jpg" width="600"/>
-</p>
-<p align="center"><i>Slika 12. Tabela stanja za TCP [3] </i></p>
-
-## TCP stanja – serverska strana
-
-U prethodnoj tabeli prikazana su **sva TCP stanja** koja se pojavljuju tokom uspostavljanja i prekida veze, uključujući i klijentsku stranu.
-
-Kako je naš projekat fokusiran na **TCP server handshake**, u nastavku su izdvojena samo ona stanja koja se tiču **serverske strane** i koja su relevantna za implementaciju u ovom modulu.
-
-<div align="center">
-  
-| TCP stanje       | Uloga servera                                                                 |
-|------------------|-------------------------------------------------------------------------------|
-| CLOSED           | Server nema aktivnu konekciju (resetovan ili konekcija završena).             |
-| LISTEN           | Server pasivno čeka SYN od klijenta na definisanom portu.                     |
-| SYN_RCVD         | Server je primio SYN i poslao SYN‑ACK; sada čeka završni ACK od klijenta.     |
-| ESTABLISHED      | Veza je uspostavljena; server i klijent mogu razmjenjivati podatke.           |
-
-</div>
 
 ## Konačni automat
 
