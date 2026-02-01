@@ -179,7 +179,7 @@ Izlazni paket SYN+ACK (out_data) prenosi se bajt po bajt i sadrži sva odgovaraj
 ## 3. Duplikovani SYN (SYN flood zaštita)
 - U ovom scenariju, klijent prolazi kroz standardnu proceduru rukovanja (SYN -> SYN-ACK -> ACK), čime server ulazi u stanje **ESTABLISHED** i aktivira signal `is_connected`. Međutim, ukoliko nakon uspostavljanja veze server primi **novi SYN paket** (duplikat koji može nastati usljed retransmisije ili zlonamjerne SYN-flood radnje), aktivira se sigurnosni mehanizam modula.
 
-Parser unutar stanja **ESTABLISHED** kontinuirano nadgleda dolazni saobraćaj. Detekcijom SYN zastavice u aktivnoj sesiji, postavlja se indikator `flag_syn`. Po završetku paketa (`in_eop`), automat u narednom taktnom ciklusu (poštujući kauzalnost sistema) prelazi u stanje **CLOSED**, čime se signal `is_connected` trenutno deaktivira (pada na '0'). Server odgovara slanjem **RST (reset)** paketa klijentu kako bi terminirao sesiju i oslobodio resurse. Nakon uspješnog slanja reset paketa, modul se vraća u početno stanje **LISTEN**, spreman za novu, ispravnu konekciju. [1]
+- Parser unutar stanja **ESTABLISHED** kontinuirano nadgleda dolazni saobraćaj. Detekcijom SYN zastavice u aktivnoj sesiji, postavlja se indikator `flag_syn`. Po završetku paketa (`in_eop`), automat u narednom taktnom ciklusu (poštujući kauzalnost sistema) prelazi u stanje **CLOSED**, čime se signal `is_connected` trenutno deaktivira (pada na '0'). Server odgovara slanjem **RST (reset)** paketa klijentu kako bi terminirao sesiju i oslobodio resurse. Nakon uspješnog slanja reset paketa, modul se vraća u početno stanje **LISTEN**, spreman za novu, ispravnu konekciju. [1]
 
 <p align="center">
   <img src="docs/Scenarij3_potpuni_paketi.jpg" width="600"/>
