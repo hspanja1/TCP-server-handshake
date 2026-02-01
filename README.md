@@ -160,12 +160,8 @@ Izlazni paket SYN+ACK (out_data) prenosi se bajt po bajt i sadrži sva odgovaraj
 
 
 ## 2. Neuspješna konekcija: Nepostojeći Port
-
-- Klijent šalje **SYN** paket na port koji server ne sluša (npr. `SERVER_PORT` mismatch). Interna logika parsera tokom obrade TCP zaglavlja detektuje neslaganje portova i aktivira indikator `flag_error`. Po prijemu signala `in_eop`, u skladu sa pravilima sinhrone logike, automat u narednom taktnom ciklusu prelazi iz stanja **LISTEN** u stanje **CLOSED**.
-
-- U ovom stanju server generiše i šalje **RST-ACK** paket čime formalno odbija zahtjev. **Verifikacija ovog scenarija u simulacijskom okruženju (ModelSim) vrši se inspekcijom polja zastavica (flags) unutar TCP zaglavlja, koje se nalazi na 56. bajtu mrežnog okvira.** Na priloženim waveform dijagramima, marker je postavljen upravo na trenutak slanja ovog polja, gdje se u signalu `out_data` očitava heksadecimalna vrijednost **x"14"** (binarno `00010100`), što potvrđuje aktivaciju **RST** i **ACK** zastavica. Za poređenje, prilikom uspješnog trostrukog rukovanja (Scenario 1), server na istoj poziciji šalje vrijednost **x"12"** (binarno `00010010`), što označava **SYN** i **ACK** zastavice.
-
-- Po završetku slanja (nakon 62 takta podataka i jednog pripremnog takta), modul se vraća u stanje **LISTEN**. Ovakav mehanizam osigurava da server ostane u pripravnosti za nove zahtjeve, istovremeno jasno signalizirajući klijentu da je pristup odbijen, čime se sprječava bespotrebno zauzeće resursa servera. [1]​
+  
+- Klijent šalje **SYN** paket na port koji server ne sluša (npr. `SERVER_PORT` mismatch). Interna logika parsera tokom obrade TCP zaglavlja detektuje neslaganje portova i aktivira indikator `flag_error`. Po prijemu signala `in_eop`, u skladu sa pravilima sinhrone logike, automat u narednom taktnom ciklusu prelazi iz stanja **LISTEN** u stanje **CLOSED**. U ovom stanju server generiše i šalje **RST-ACK** paket (seq=0, ack=seq_klijent+1) čime formalno odbija zahtjev. Po završetku slanja (nakon 62 takta podataka i jednog pripremnog takta), modul se vraća u stanje **LISTEN**. Ovakav mehanizam osigurava da server ostane u pripravnosti za nove zahtjeve, istovremeno jasno signalizirajući klijentu da je pristup odbijen. [1]​
 
 <p align="center">
   <img src="docs/Scenarij2_potpuni_paketi.jpg" width="600"/>
@@ -290,21 +286,23 @@ Prvi testbench simulira standardni proces uspostave veze. Kroz sekvencijalno sla
 ### Scenario 2: Odbijanje konekcije (Pogrešan port)
 U cilju postizanja maksimalne sigurnosti i robusnosti TCP servera, verifikacija Scenarija 2 proširena je na tri zasebna testbench okruženja. Svaki od njih simulira specifičan tip neispravnosti mrežnog okvira, čime se potvrđuje da State mašina servera ne dozvoljava uspostavljanje konekcije ukoliko klijent ne posjeduje tačne podatke o serveru.
 
-**Testbench: Neispravan port (Wrong Port)** – U ovom scenariju, klijent šalje SYN paket na odredišni port koji se ne podudara sa generičkim parametrom `SERVER_PORT`. Simulacija pokazuje kako automat, prilikom parsiranja TCP zaglavlja na 45. bajtu, prepoznaje nepoklapanje i aktivira unutrašnji indikator greške (`flag_error`). Po završetku paketa (`in_eop`), server umjesto u proces rukovanja prelazi u stanje **CLOSED**, šalje RST-ACK paket klijentu i vraća se u stanje **LISTEN**.
+**Ključna tačka verifikacije za sve pod-scenarije je polje zastavica (flags) u TCP zaglavlju.** Na priloženim screenshotovima iz ModelSim-a, žuti kursor (marker) je postavljen na trenutak slanja 56. bajta okvira. U slučajevima odbijanja konekcije, u signalu `out_data` očitava se vrijednost **x"14"** (kombinacija RST + ACK zastavica), dok se kod ispravne konekcije (Scenario 1) na istoj poziciji očitava **x"12"** (kombinacija SYN + ACK).
+
+**Testbench: Neispravan port (Wrong Port)** – U ovom scenariju, klijent šalje SYN paket na odredišni port koji se ne podudara sa generičkim parametrom `SERVER_PORT`. Simulacija pokazuje kako automat, prilikom parsiranja TCP zaglavlja na 45. bajtu, prepoznaje nepoklapanje i aktivira unutrašnji indikator greške (`flag_error`). Po završetku paketa (`in_eop`), server umjesto u proces rukovanja prelazi u stanje **CLOSED**, šalje RST-ACK paket klijentu (vidljiv marker sa vrijednošću **x"14"**) i vraća se u stanje **LISTEN**.
 
 <p align="center">
   <img src="sim/neispravan_port_rst_paket.PNG" width="600"/>
 </p>
 <p align="center"><i>Slika 19. Neispravan port </i></p>
 
-**Testbench: Neispravna IP adresa (Wrong IP)** – Ovaj testbench simulira situaciju u kojoj paket dospijeva do mrežnog interfejsa, ali je u IPv4 zaglavlju navedena odredišna IP adresa koja ne odgovara `SERVER_IP` parametru. Verifikacija u ModelSim-u potvrđuje da "blur" logika sklopa ispravno detektuje neslaganje na 41. bajtu, čime se sprečava dalja obrada neovlaštenog ili pogrešno usmjerenog paketa.
+**Testbench: Neispravna IP adresa (Wrong IP)** – Ovaj testbench simulira situaciju u kojoj paket dospijeva do mrežnog interfejsa, ali je u IPv4 zaglavlju navedena odredišna IP adresa koja ne odgovara `SERVER_IP` parametru. Verifikacija u ModelSim-u potvrđuje da "blur" logika sklopa ispravno detektuje neslaganje na 41. bajtu, čime se sprečava dalja obrada neovlaštenog ili pogrešno usmjerenog paketa. Server ponovo odgovara RESET paketom (vrijednost **x"14"** na markeru).
 
 <p align="center">
   <img src="sim/neispravna_ip_adresa_rst_paket.PNG" width="600"/>
 </p>
 <p align="center"><i>Slika 20. Neispravna IP adresa </i></p>
 
-**Testbench: Neispravna MAC adresa (Wrong MAC)** – Treći pod-scenario verifikuje najniži nivo filtriranja. Ukoliko se Destination MAC adresa u Ethernet zaglavlju ne poklapa sa `SERVER_MAC` adresom sklopa, `flag_error` se aktivira već na 13. bajtu. Ovim je potvrđeno da server štiti resurse sistema tako što odbacuje neispravne okvire na samom početku procesa parsiranja.
+**Testbench: Neispravna MAC adresa (Wrong MAC)** – Treći pod-scenario verifikuje najniži nivo filtriranja. Ukoliko se Destination MAC adresa u Ethernet zaglavlju ne poklapa sa `SERVER_MAC` adresom sklopa, `flag_error` se aktivira već na 13. bajtu. Ovim je potvrđeno da server štiti resurse sistema tako što odbacuje neispravne okvire na samom početku procesa parsiranja uz slanje RST paketa.
 
 <p align="center">
   <img src="sim/neispravna_mac_adresa_rst_paket.PNG" width="600"/>
@@ -315,6 +313,8 @@ Zajedničko za sva tri slučaja je da server ostaje u stanju visoke pripravnosti
 
 ### Scenario 3: Dupli SYN paket (Established -> RST)
 Treći testbench provjerava ponašanje servera u specifičnom scenariju kada klijent pošalje SYN paket na već aktivnu konekciju. ModelSim simulacija potvrđuje da sklop, uprkos stanju `ESTABLISHED`, kontinuirano vrši inspekciju dolaznog toka podataka. Detekcijom duplog SYN-a, server trenutno inicira raskid veze slanjem RST paketa, što je u potpunosti usklađeno sa specifikacijom i priloženim dijagramima sekvenci.
+
+**Validacija ovog postupka u simulaciji vrši se posmatranjem markera (žutog kursora) koji je postavljen na polje zastavica (flags) u TCP zaglavlju odgovora.** Kako je vidljivo na slici 25., server u ovom scenariju šalje vrijednost **x"14"** (RST + ACK), čime se jasno razlikuje od standardne poruke o uspostavljanju konekcije koja na istom polju sadrži vrijednost **x"12"** (SYN + ACK). Ovim se potvrđuje da je sigurnosni mehanizam ispravno prepoznao anomaliju (dupli SYN) i odgovorio propisanim paketom za terminaciju veze.
 
 <p align="center">
   <img src="sim/syn.PNG" width="600"/>
