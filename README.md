@@ -306,23 +306,30 @@ Prvi testbench simulira standardni proces uspostave veze. Kroz sekvencijalno sla
 <p align="center"><i>Slika 18. ACK paket </i></p>
 
 ### Scenario 2: Odbijanje konekcije (Pogrešan port)
-Drugi testbench simulira situaciju u kojoj klijent šalje zahtjev na port koji server ne osluškuje. Simulacija pokazuje kako sklop aktivira `flag_error` tokom inspekcije TCP zaglavlja. Na kraju paketa, State mašina umjesto u proces rukovanja prelazi u stanje `CLOSED`, generišući RST-ACK paket klijentu, čime se verifikuje sigurnosna logika servera i ispravan povratak u početno stanje `LISTEN`.
+U cilju postizanja maksimalne sigurnosti i robusnosti TCP servera, verifikacija Scenarija 2 proširena je na tri zasebna testbench okruženja. Svaki od njih simulira specifičan tip neispravnosti mrežnog okvira, čime se potvrđuje da State mašina servera ne dozvoljava uspostavljanje konekcije ukoliko klijent ne posjeduje tačne podatke o serveru.
+
+**Testbench: Neispravan port (Wrong Port)** – U ovom scenariju, klijent šalje SYN paket na odredišni port koji se ne podudara sa generičkim parametrom `SERVER_PORT`. Simulacija pokazuje kako automat, prilikom parsiranja TCP zaglavlja na 45. bajtu, prepoznaje nepoklapanje i aktivira unutrašnji indikator greške (`flag_error`). Po završetku paketa (`in_eop`), server umjesto u proces rukovanja prelazi u stanje **CLOSED**, šalje RST-ACK paket klijentu i vraća se u stanje **LISTEN**.
 
 <p align="center">
   <img src="sim/neispravan_port_rst_paket.PNG" width="600"/>
 </p>
 <p align="center"><i>Slika 19. Neispravan port </i></p>
 
+**Testbench: Neispravna IP adresa (Wrong IP)** – Ovaj testbench simulira situaciju u kojoj paket dospijeva do mrežnog interfejsa, ali je u IPv4 zaglavlju navedena odredišna IP adresa koja ne odgovara `SERVER_IP` parametru. Verifikacija u ModelSim-u potvrđuje da "blur" logika sklopa ispravno detektuje neslaganje na 41. bajtu, čime se sprečava dalja obrada neovlaštenog ili pogrešno usmjerenog paketa.
+
 <p align="center">
   <img src="sim/neispravna_ip_adresa_rst_paket.PNG" width="600"/>
 </p>
 <p align="center"><i>Slika 20. Neispravna IP adresa </i></p>
 
+**Testbench: Neispravna MAC adresa (Wrong MAC)** – Treći pod-scenario verifikuje najniži nivo filtriranja. Ukoliko se Destination MAC adresa u Ethernet zaglavlju ne poklapa sa `SERVER_MAC` adresom sklopa, `flag_error` se aktivira već na 13. bajtu. Ovim je potvrđeno da server štiti resurse sistema tako što odbacuje neispravne okvire na samom početku procesa parsiranja.
 
 <p align="center">
   <img src="sim/neispravna_mac_adresa_rst_paket.PNG" width="600"/>
 </p>
 <p align="center"><i>Slika 21. Neispravna MAC adresa </i></p>
+
+Zajedničko za sva tri slučaja je da server ostaje u stanju visoke pripravnosti, vraćajući se u **LISTEN** mod tek nakon što klijentu signalizira prekid (RST), čime se simulira ponašanje realnih mrežnih sistema.
 
 ### Scenario 3: Dupli SYN paket (Established -> RST)
 Treći testbench provjerava ponašanje servera u specifičnom scenariju kada klijent pošalje SYN paket na već aktivnu konekciju. ModelSim simulacija potvrđuje da sklop, uprkos stanju `ESTABLISHED`, kontinuirano vrši inspekciju dolaznog toka podataka. Detekcijom duplog SYN-a, server trenutno inicira raskid veze slanjem RST paketa, što je u potpunosti usklađeno sa specifikacijom i priloženim dijagramima sekvenci.
@@ -348,27 +355,35 @@ Treći testbench provjerava ponašanje servera u specifičnom scenariju kada kli
 </p>
 <p align="center"><i>Slika 25. Dupli SYN + RST paketi </i></p>
 
+---
+
+## Zaključak
+
+Projektni zadatak implementacije TCP Server Handshake modula uspješno je realizovan kroz sve faze dizajna digitalnih sistema – od teoretskog modeliranja protokola, preko dizajna konačnog automata, do finalne VHDL implementacije i verifikacije. Verifikacija kroz ModelSim simulacije i State Machine Viewer potvrdila je da se hardverska realizacija u potpunosti poklapa sa definisanim dijagramima sekvenci i FSM modelom. Finalni modul predstavlja pouzdan temelj za dalji razvoj kompleksnijih mrežnih sistema na FPGA platformama, demonstrirajući efikasno spajanje mrežnih protokola i hardverskog dizajna.
+
+---
+
 
 ## Literatura
 
 
 [1] "TCP Connection Establishment and Termination" [Na internetu].  
-Dostupno:(https://people.na.infn.it/~garufi/didattica/CorsoAcq/Trasp/Lezione9/tcpip_ill/tcp_conn.htm) [pristupljeno: 14-pro-2025].
+Dostupno:(https://people.na.infn.it/~garufi/didattica/CorsoAcq/Trasp/Lezione9/tcpip_ill/tcp_conn.htm) 
 
 [2] "TCP/IP – Transportni sloj," u *Mreže – Layer-X*. [Na internetu].  
-Dostupno: http://mreze.layer-x.com/s040100-0.html#google_vignette [pristupljeno: 14-pro-2025].
+Dostupno: http://mreze.layer-x.com/s040100-0.html#google_vignette 
 
 [3] "TCP 3-Way Handshake Process," u *NetworkWalks*. [Na internetu].  
-Dostupno: https://networkwalks.com/tcp-3-way-handshake-process/ [pristupljeno: 14-pro-2025].
+Dostupno: https://networkwalks.com/tcp-3-way-handshake-process/ 
 
 [4] "TCP 3-Way Handshaking," u *Wireshark Wiki*. [Na internetu].  
-Dostupno: https://wiki.wireshark.org/TCP_3_way_handshaking [pristupljeno: 14-pro-2025].
+Dostupno: https://wiki.wireshark.org/TCP_3_way_handshaking 
 
 [5] "Avalon® Interface Specifications - Intel" [Na internetu].  
-Dostupno: (https://cdrdv2-public.intel.com/667068/mnl_avalon_spec-683091-667068.pdf) [pristupljeno: 14-pro-2025].
+Dostupno: (https://cdrdv2-public.intel.com/667068/mnl_avalon_spec-683091-667068.pdf) 
 
 [6] "RFC 9293: Transmission Control Protocol (TCP)" [Na internetu].  
-Dostupno: (https://datatracker.ietf.org/doc/html/rfc9293) [pristupljeno: 29-pro-2025].
+Dostupno: (https://datatracker.ietf.org/doc/html/rfc9293) 
 
 
 
